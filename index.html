@@ -1,0 +1,4247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRONCLAD // Workout Routine Dashboard</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="description" content="High-resolution industrial full-page strength training dashboard mockup. Modern tactical aesthetics, raw concrete dark mode, glowing neon cyan accents.">
+  
+  <!-- Google Fonts: Tactical & Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM - INDUSTRIAL NEON DARK MODE (FULL PAGE LAYOUT)
+       ========================================================================== */
+    :root {
+      /* Color Palette */
+      --bg-dark: #070a0f;
+      --bg-surface: #0d121a;
+      --card-bg: #131a26;
+      --card-bg-hover: #182232;
+      --card-border: #202b3d;
+      --card-border-glow: rgba(0, 240, 255, 0.4);
+      
+      --neon-cyan: #00f0ff;
+      --neon-cyan-glow: rgba(0, 240, 255, 0.35);
+      --neon-blue: #0066ff;
+      --neon-blue-glow: rgba(0, 102, 255, 0.4);
+      --neon-lime: #00ff88;
+      --neon-orange: #ff5500;
+      
+      --text-white: #f0f6fc;
+      --text-muted: #8b949e;
+      --text-dim: #525d6d;
+      
+      /* Typography */
+      --font-tactical: 'Chakra Petch', sans-serif;
+      --font-ui: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      
+      --shadow-neon: 0 0 25px rgba(0, 240, 255, 0.25);
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* SVG Raw Concrete Noise Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(0, 102, 255, 0.06) 0%, transparent 45%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grid Texture overlay */
+    .grid-pattern {
+      position: fixed;
+      inset: 0;
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ==========================================================================
+       TOP FULL-WIDTH NAVIGATION HEADER
+       ========================================================================== */
+    .app-topbar {
+      position: relative;
+      z-index: 20;
+      background: rgba(13, 18, 26, 0.95);
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-title {
+      font-family: var(--font-tactical);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: var(--text-white);
+      text-transform: uppercase;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .brand-title span {
+      color: var(--neon-cyan);
+    }
+
+    .top-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .top-nav-item {
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .top-nav-item.active, .top-nav-item:hover {
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+    }
+
+    .top-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .user-name-badge {
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .user-name-badge:hover {
+      background: rgba(0, 240, 255, 0.2);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+    }
+
+    .live-badge {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--neon-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    .login-btn-top {
+      background: linear-gradient(135deg, var(--neon-cyan), #0088ff);
+      color: #000;
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.35);
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+    .login-btn-top:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+    }
+
+    .workout-start-btn {
+      background: linear-gradient(135deg, var(--neon-lime), #00b359);
+      color: #000;
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.35);
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+    .workout-start-btn.running {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--neon-cyan);
+      box-shadow: none;
+    }
+
+    /* ==========================================================================
+       MAIN PAGE CONTAINER & DASHBOARD LAYOUT
+       ========================================================================== */
+    .main-wrapper {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 32px 60px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: opacity 0.4s ease;
+    }
+
+    /* ==========================================================================
+       WEEKLY ROUTINE DAY SELECTOR BAR
+       ========================================================================== */
+    .weekly-selector-bar {
+      background: rgba(13, 19, 28, 0.9);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow-card);
+      flex-wrap: wrap;
+    }
+
+    .day-selector-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .date-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-family: var(--font-tactical);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .date-selector input,
+    .series-count-select {
+      background: #0f1520;
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: var(--radius-sm);
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      padding: 8px 10px;
+    }
+
+    .selector-label-tag {
+      font-family: var(--font-tactical);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 4px;
+    }
+
+    .day-btn {
+      background: #111722;
+      border: 1px solid #202d42;
+      color: var(--text-muted);
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .day-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      transform: translateY(-2px);
+    }
+    .day-btn.active {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(0, 102, 255, 0.35));
+      border: 1.5px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.35);
+    }
+
+    .day-btn-sub {
+      font-size: 9px;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+    .day-btn.active .day-btn-sub {
+      color: var(--text-white);
+    }
+
+    .exercise-picker-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .exercise-select-input {
+      background: #0f1520;
+      border: 1.5px solid rgba(0, 240, 255, 0.35);
+      border-radius: var(--radius-md);
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 14px;
+      outline: none;
+      cursor: pointer;
+      min-width: 260px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .btn-open-chest-catalog {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--neon-cyan);
+      font-family: var(--font-tactical);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-open-chest-catalog:hover {
+      background: rgba(0, 240, 255, 0.25);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    }
+
+    /* Chest Lock Banner Pill */
+    .chest-locked-banner {
+      background: rgba(255, 85, 0, 0.15);
+      border: 1.5px solid var(--neon-orange);
+      color: var(--neon-orange);
+      font-family: var(--font-tactical);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.3);
+    }
+    .chest-locked-banner.active {
+      display: flex;
+    }
+
+    /* ==========================================================================
+       FULL-WIDTH TACTICAL BANNER HEADER
+       ========================================================================== */
+    .tactical-header-banner {
+      background: linear-gradient(135deg, rgba(19, 26, 38, 0.95), rgba(13, 18, 26, 0.98));
+      border: 1px solid var(--card-border);
+      border-left: 5px solid var(--neon-cyan);
+      border-radius: var(--radius-lg);
+      padding: 24px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tactical-header-banner::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 250px;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 240, 255, 0.02) 8px,
+        rgba(0, 240, 255, 0.02) 16px
+      );
+      pointer-events: none;
+    }
+
+    .header-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .banner-visual {
+      width: 220px;
+      min-width: 220px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+      background: rgba(10, 16, 24, 0.9);
+    }
+
+    .banner-visual img {
+      display: block;
+      width: 100%;
+      height: 132px;
+      object-fit: cover;
+      filter: saturate(1.08) contrast(1.05);
+    }
+
+    .banner-sub-tag {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tactical-pill {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--neon-cyan);
+      font-family: var(--font-tactical);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .greeting-title {
+      font-family: var(--font-tactical);
+      font-size: 32px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.15;
+      letter-spacing: 0.5px;
+      color: var(--text-white);
+      margin-top: 4px;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    }
+    .greeting-title span.highlight {
+      color: var(--neon-cyan);
+    }
+
+    .header-right-metrics {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .metric-card-mini {
+      background: rgba(9, 13, 19, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      min-width: 150px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      font-family: var(--font-tactical);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-white);
+      margin-top: 2px;
+    }
+    .metric-value.cyan {
+      color: var(--neon-cyan);
+    }
+
+    /* ==========================================================================
+       DASHBOARD GRID
+       ========================================================================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 980px);
+      justify-content: center;
+      gap: 20px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .stream-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+      max-width: 980px;
+    }
+
+    .set-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    @media (max-width: 560px) {
+      .weekly-selector-bar,
+      .day-selector-group,
+      .date-selector {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .day-btn,
+      .date-selector input,
+      .series-count-select,
+      .set-selector-section,
+      .set-numbers-group {
+        width: 100%;
+      }
+
+      .set-numbers-group {
+        justify-content: stretch;
+      }
+
+      .set-num-btn {
+        flex: 1;
+      }
+
+      .set-table {
+        font-size: 10px;
+      }
+
+      .set-table th,
+      .set-table td {
+        padding: 7px 4px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .app-topbar {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .top-nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .main-wrapper {
+        padding: 18px 16px 40px;
+      }
+
+      .tactical-header-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+
+      .header-right-metrics {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metric-card-mini {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .brand-title {
+        font-size: 15px;
+      }
+
+      .top-user-profile {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .greeting-title {
+        font-size: 24px;
+      }
+
+      .day-btn {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 120px;
+      }
+
+      .exercise-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .set-selector-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .set-numbers-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .set-num-btn {
+        flex: 1;
+      }
+
+      .secondary-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .s-card-action-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app-topbar {
+        padding: 12px 14px;
+      }
+
+      .brand-logo {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .brand-title {
+        font-size: 13px;
+        letter-spacing: 0.8px;
+      }
+
+      .top-user-profile {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .top-nav-links {
+        gap: 8px;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .top-nav-item {
+        flex: 1 1 calc(50% - 8px);
+        padding: 6px 8px;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .stream-container {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .tactical-header-banner {
+        padding: 18px 16px;
+        gap: 14px;
+      }
+
+      .banner-sub-tag {
+        flex-wrap: wrap;
+      }
+
+      .header-left-col {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .banner-visual {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .banner-visual img {
+        height: 160px;
+      }
+
+      .greeting-title {
+        font-size: 24px;
+        line-height: 1.08;
+        letter-spacing: 0.2px;
+        overflow-wrap: anywhere;
+      }
+
+      .header-right-metrics {
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+
+      .metric-card-mini {
+        padding: 10px 12px;
+      }
+
+      .day-selector-group {
+        width: 100%;
+      }
+
+      .day-btn {
+        flex-basis: 100%;
+      }
+
+      .dashboard-grid {
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-template-columns: 1fr !important;
+      }
+
+      .stream-container,
+      .exercise-card,
+      .card-controls-panel,
+      .set-table-wrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      .exercise-card {
+        padding: 14px 12px;
+      }
+
+      .exercise-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .exercise-title-group {
+        min-width: 0;
+        align-items: flex-start;
+      }
+
+      .exercise-title {
+        font-size: 18px;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+      }
+
+      .exercise-subtitle {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .exercise-card-header > div:last-child {
+        width: 100%;
+      }
+
+      .btn-open-chest-catalog {
+        width: 100%;
+        justify-content: center;
+        font-size: 10px;
+        padding: 10px 12px;
+        white-space: normal;
+        line-height: 1.3;
+      }
+
+      .card-controls-panel {
+        padding: 12px 10px;
+        min-width: 0;
+      }
+
+      .set-selector-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .set-numbers-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .set-num-btn {
+        width: 36px;
+        height: 36px;
+      }
+
+      .inputs-and-stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .numeric-input-field,
+      .reps-input-field {
+        width: 70px;
+      }
+
+      .set-table {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .rest-actions-row {
+        flex-direction: column !important;
+      }
+
+      .popup-btn-add,
+      .popup-btn-skip {
+        width: 100% !important;
+      }
+    }
+
+    /* ==========================================================================
+       PRIMARY EXERCISE CARD - PRESS DE BANCA INCLINADO
+       ========================================================================== */
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s ease;
+    }
+
+    .exercise-card.primary {
+      border-color: rgba(0, 240, 255, 0.4);
+      background: linear-gradient(180deg, #16202e 0%, #121824 100%);
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(0, 240, 255, 0.25);
+    }
+
+    .exercise-card.primary.selected {
+      border-color: var(--neon-lime);
+      box-shadow: 0 0 24px rgba(0, 255, 136, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.3);
+    }
+    .exercise-card.locked {
+      border-color: var(--neon-orange);
+      opacity: 0.7;
+    }
+
+    .exercise-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .exercise-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .exercise-badge-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      color: var(--neon-cyan);
+    }
+
+    .exercise-title {
+      font-family: var(--font-tactical);
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: 0.5px;
+    }
+
+    .exercise-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tag-pill {
+      background: rgba(0, 102, 255, 0.15);
+      border: 1px solid rgba(0, 102, 255, 0.3);
+      color: #38bdf8;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Controls Panel Inside Card */
+    .card-controls-panel {
+      background: rgba(9, 13, 19, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 14px 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 1. Clickable Set Selector Controls [1] [2] [3] [4] */
+    .set-selector-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .set-selector-label {
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .set-numbers-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .set-num-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #141c28;
+      border: 1.5px solid #243247;
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .set-num-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+
+    .set-num-btn.active {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(0, 102, 255, 0.35));
+      border: 2px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    }
+
+    .set-num-btn.completed {
+      background: rgba(0, 255, 136, 0.12);
+      border-color: rgba(0, 255, 136, 0.4);
+      color: var(--neon-lime);
+    }
+    .set-num-btn.completed::after {
+      content: "✓";
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      font-size: 11px;
+      background: var(--neon-lime);
+      color: #000;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    /* 2. Inputs Grid & Compact Stat Badge */
+    .inputs-and-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .inputs-and-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .custom-input-box {
+      background: #101622;
+      border: 1.5px solid rgba(0, 240, 255, 0.35);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s ease;
+    }
+
+    .input-box-label {
+      font-size: 10px;
+      font-family: var(--font-tactical);
+      font-weight: 700;
+      color: var(--neon-cyan);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .input-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .adjust-btn {
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid #2a384d;
+      border-radius: 6px;
+      color: var(--text-white);
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .adjust-btn:hover {
+      background: rgba(0, 240, 255, 0.2);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .numeric-input-field {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-tactical);
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-align: center;
+      width: 86px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+    }
+
+    .reps-input-field {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-tactical);
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-align: center;
+      width: 74px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+    }
+
+    /* 3. Compact Statistical Badge */
+    .compact-stat-badge {
+      background: linear-gradient(135deg, rgba(26, 36, 52, 0.95), rgba(17, 24, 36, 0.98));
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .compact-stat-badge::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    .badge-top-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      font-family: var(--font-tactical);
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .pr-flame-tag {
+      color: var(--neon-lime);
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-weight: 800;
+    }
+
+    .badge-stat-values {
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-white);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-high {
+      color: var(--neon-cyan);
+    }
+    .stat-divider {
+      color: var(--text-dim);
+      margin: 0 4px;
+    }
+    .stat-low {
+      color: #94a3b8;
+    }
+
+    /* Set Table */
+    .set-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+    }
+
+    .set-table th {
+      font-size: 10px;
+      font-family: var(--font-tactical);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .set-table td {
+      padding: 10px 8px;
+      font-size: 13px;
+      text-align: center;
+      font-family: var(--font-mono);
+      color: var(--text-white);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .set-table tr.is-hidden {
+      display: none;
+    }
+
+    .set-skip-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .set-skip-reason {
+      display: none;
+      width: 100%;
+      min-width: 120px;
+      margin-top: 6px;
+      padding: 6px;
+      background: #0f1520;
+      border: 1px solid rgba(255, 85, 0, 0.45);
+      border-radius: var(--radius-sm);
+      color: var(--text-white);
+      font: 11px var(--font-ui);
+    }
+
+    .set-skip-reason.active {
+      display: block;
+    }
+
+    .set-table tr.current-row {
+      background: rgba(0, 240, 255, 0.08);
+      border-left: 3px solid var(--neon-cyan);
+    }
+    .set-table tr.current-row td {
+      color: var(--neon-cyan);
+      font-weight: 700;
+    }
+
+    /* Primary Action Button: COMPLETAR SERIE */
+    .action-btn-main {
+      margin-top: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, var(--neon-cyan), #00a8ff);
+      color: #050b14;
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 12px 14px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: var(--shadow-neon);
+      transition: all 0.25s ease;
+    }
+    .action-btn-main:disabled {
+      background: #2a3442;
+      color: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .action-btn-main:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+    }
+
+    /* SECONDARY EXERCISES */
+    .section-heading {
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 10px 0 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-heading::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .exercises-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .secondary-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+    .secondary-card.completed {
+      border-color: rgba(0, 255, 136, 0.4);
+      background: rgba(0, 255, 136, 0.04);
+    }
+
+    .treadmill-card {
+      background: linear-gradient(135deg, rgba(255, 85, 0, 0.12), var(--card-bg) 42%);
+      border: 1px solid rgba(255, 85, 0, 0.35);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .treadmill-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .treadmill-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .treadmill-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 85, 0, 0.45);
+      border-radius: 10px;
+      color: var(--neon-orange);
+      font-size: 18px;
+    }
+
+    .treadmill-title {
+      font-family: var(--font-tactical);
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .treadmill-subtitle {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .treadmill-fields {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .treadmill-field {
+      background: rgba(9, 13, 19, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+
+    .treadmill-field label {
+      display: block;
+      color: var(--text-muted);
+      font-family: var(--font-tactical);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .treadmill-field input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .treadmill-field input:focus {
+      color: var(--neon-orange);
+    }
+
+    @media (max-width: 560px) {
+      .treadmill-card-header {
+        align-items: flex-start;
+      }
+
+      .treadmill-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .s-card-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .s-card-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neon-cyan);
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .s-card-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .s-card-name {
+      font-family: var(--font-tactical);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .s-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 3px;
+    }
+
+    .s-card-action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .s-card-action-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.1);
+    }
+    .s-card-action-btn.done {
+      background: rgba(0, 255, 136, 0.15);
+      border-color: var(--neon-lime);
+      color: var(--neon-lime);
+    }
+
+    /* RIGHT SIDEBAR */
+    .sidebar-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .widget-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .widget-title {
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .muscle-heatmap-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .heatmap-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .heatmap-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: var(--font-tactical);
+      color: var(--text-muted);
+    }
+
+    .heatmap-bar-bg {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .heatmap-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--neon-cyan-glow);
+    }
+
+    .rest-timer-widget-card {
+      background: linear-gradient(135deg, rgba(16, 23, 34, 0.95), rgba(10, 14, 21, 0.98));
+      border: 1px solid var(--neon-cyan);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+    }
+
+    .rest-timer-clock {
+      font-family: var(--font-mono);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    }
+
+    .timer-btn-group {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .t-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .t-btn:hover {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .finish-workout-banner-btn {
+      background: transparent;
+      border: 2px dashed rgba(255, 85, 0, 0.6);
+      color: var(--neon-orange);
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-align: center;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      width: 100%;
+    }
+    .finish-workout-banner-btn:hover {
+      background: rgba(255, 85, 0, 0.12);
+      border-color: var(--neon-orange);
+      box-shadow: 0 0 20px rgba(255, 85, 0, 0.35);
+    }
+
+    /* REST POP-UP MODAL */
+    .rest-popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 9, 15, 0.88);
+      backdrop-filter: blur(14px);
+      z-index: 250;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .rest-popup-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .rest-popup-card {
+      background: linear-gradient(135deg, #121927, #0c121d);
+      border: 2px solid var(--neon-cyan);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 0 50px rgba(0, 240, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .rest-popup-tag {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--neon-cyan);
+      font-family: var(--font-tactical);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .rest-popup-title {
+      font-family: var(--font-tactical);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .rest-svg-ring {
+      width: 140px;
+      height: 140px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .rest-svg-ring svg {
+      width: 140px;
+      height: 140px;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 8;
+      fill: none;
+    }
+
+    .ring-bar {
+      stroke: var(--neon-cyan);
+      stroke-width: 8;
+      fill: none;
+      stroke-dasharray: 377;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .rest-timer-value {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    }
+
+    .rest-actions-row {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .popup-btn-add {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .popup-btn-add:hover {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .popup-btn-skip {
+      flex: 1.5;
+      background: linear-gradient(135deg, var(--neon-cyan), #0088ff);
+      color: #000;
+      font-family: var(--font-tactical);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+      text-transform: uppercase;
+    }
+
+    /* WORKOUT CELEBRATION MODAL SUMMARY */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 12, 0.88);
+      backdrop-filter: blur(16px);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #131c2a, #0b111a);
+      border: 2px solid var(--neon-cyan);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 0 50px rgba(0, 240, 255, 0.35);
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-icon {
+      font-size: 54px;
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-family: var(--font-tactical);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .modal-subtitle {
+      font-size: 13px;
+      color: var(--neon-cyan);
+      font-family: var(--font-tactical);
+      margin-top: 4px;
+      margin-bottom: 24px;
+    }
+
+    .modal-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .modal-stat-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+    }
+
+    .modal-stat-lbl {
+      font-size: 10px;
+      font-family: var(--font-tactical);
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .modal-stat-val {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-white);
+      margin-top: 4px;
+    }
+    .modal-stat-val.highlight {
+      color: var(--neon-cyan);
+    }
+
+    .modal-close-btn {
+      background: linear-gradient(135deg, var(--neon-cyan), #0088ff);
+      color: #000;
+      font-family: var(--font-tactical);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    /* USER LOGIN ENTRANCE MODAL */
+    .login-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 12, 0.94);
+      backdrop-filter: blur(20px);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s ease;
+    }
+    .login-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .login-card {
+      background: linear-gradient(135deg, #131c2b, #0c121d);
+      border: 2px solid var(--neon-cyan);
+      border-radius: var(--radius-xl);
+      padding: 42px 36px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 0 60px rgba(0, 240, 255, 0.45);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .login-avatar-icon {
+      width: 68px;
+      height: 68px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: #000;
+      margin-bottom: 16px;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+    }
+
+    .login-title {
+      font-family: var(--font-tactical);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .login-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    .login-field-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .login-field-label {
+      font-size: 11px;
+      font-family: var(--font-tactical);
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .login-input-text {
+      background: #090e17;
+      border: 1.5px solid rgba(0, 240, 255, 0.35);
+      border-radius: var(--radius-md);
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 17px;
+      font-weight: 700;
+      padding: 14px 18px;
+      outline: none;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+    .login-input-text:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+    }
+
+    .login-submit-btn {
+      background: linear-gradient(135deg, var(--neon-cyan), #0088ff);
+      color: #000;
+      font-family: var(--font-tactical);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 15px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+      margin-top: 6px;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .login-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.6);
+    }
+
+    /* PROFILE / HISTORY / STATS MODALS */
+    .panel-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 12, 0.92);
+      backdrop-filter: blur(18px);
+      z-index: 360;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .panel-modal-overlay.active {
+      display: flex;
+    }
+
+    .panel-modal-card {
+      background: linear-gradient(135deg, #101a2b, #0b111a);
+      border: 2px solid var(--neon-cyan);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      width: min(920px, 100%);
+      max-height: 82vh;
+      overflow: auto;
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.35);
+    }
+
+    .panel-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 12px;
+    }
+
+    .panel-modal-title {
+      font-family: var(--font-tactical);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-transform: uppercase;
+    }
+
+    .panel-close-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-white);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-family: var(--font-tactical);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-box {
+      background: rgba(10, 15, 24, 0.8);
+      border: 1px solid rgba(0,240,255,0.16);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-family: var(--font-tactical);
+      font-size: 10px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-white);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-item {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      background: rgba(10,15,24,0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .history-day {
+      font-family: var(--font-tactical);
+      font-weight: 800;
+      color: var(--neon-cyan);
+    }
+
+    .history-meta {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+
+    .profile-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .profile-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .profile-field label {
+      font-family: var(--font-tactical);
+      font-size: 11px;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .profile-field input,
+    .profile-field select {
+      background: #091018;
+      border: 1px solid rgba(0,240,255,0.3);
+      border-radius: var(--radius-md);
+      color: var(--text-white);
+      font-family: var(--font-tactical);
+      font-size: 15px;
+      padding: 12px 14px;
+    }
+
+    .profile-save-btn {
+      background: linear-gradient(135deg, var(--neon-cyan), #0088ff);
+      color: #000;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-family: var(--font-tactical);
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* CHEST EXERCISES CATALOG MODAL */
+    .chest-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 12, 0.92);
+      backdrop-filter: blur(18px);
+      z-index: 350;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .chest-modal-overlay.active {
+      display: flex;
+    }
+
+    .chest-catalog-card {
+      background: linear-gradient(135deg, #131c2b, #0c121d);
+      border: 2px solid var(--neon-cyan);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 0 50px rgba(0, 240, 255, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .chest-catalog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 16px;
+    }
+
+    .chest-catalog-title {
+      font-family: var(--font-tactical);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chest-exercises-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .chest-item-card {
+      background: rgba(10, 15, 24, 0.8);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+    }
+    .chest-item-card:hover:not(.completed) {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.2);
+    }
+
+    .chest-item-card.completed {
+      border-color: rgba(0, 255, 136, 0.4);
+      background: rgba(0, 255, 136, 0.06);
+      opacity: 0.7;
+    }
+
+    .chest-item-card.selected {
+      border-color: var(--neon-lime);
+      background: rgba(0, 255, 136, 0.14);
+      box-shadow: 0 0 18px rgba(0, 255, 136, 0.28);
+    }
+
+    .chest-item-title {
+      font-family: var(--font-tactical);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-white);
+    }
+
+    .chest-item-tag {
+      font-size: 10px;
+      font-family: var(--font-tactical);
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      align-self: flex-start;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .chest-item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-pattern"></div>
+
+  <!-- Top Full-Width Navigation Bar -->
+  <header class="app-topbar">
+    <div class="brand-logo" aria-label="Ironclad Gym logo">
+      <div class="logo-icon">
+        <img src="logo.png" alt="Logo Ironclad Gym">
+      </div>
+      <div class="brand-title">IRON<span>CLAD</span></div>
+    </div>
+
+    <nav class="top-nav-links">
+      <a href="#" class="top-nav-item active">Rutina Semanal</a>
+      <a href="#" class="top-nav-item" onclick="event.preventDefault(); openHistoryModal();">Historial</a>
+      <a href="#" class="top-nav-item" onclick="event.preventDefault(); openStatsModal();">Estadísticas</a>
+      <a href="#" class="top-nav-item" onclick="event.preventDefault(); openProfileModal();">Perfil</a>
+    </nav>
+
+    <div class="top-user-profile">
+      <!-- User profile badge displaying logged in athlete -->
+      <div class="user-name-badge" onclick="openLoginModal()" id="topUserBadge" style="display: none;">
+        👤 <span id="topUserNameDisplay">Atleta</span>
+      </div>
+
+      <!-- Main Login Button in Top Bar (Visible when not logged in) -->
+      <button class="login-btn-top" id="topLoginBtn" onclick="openLoginModal()">
+        🔑 INICIAR SESIÓN
+      </button>
+
+      <div class="tactical-pill" id="sessionStatusPill" style="display: none;">
+        <span class="live-badge" id="sessionStatusDot"></span> <span id="sessionStatusText">SESIÓN PAUSADA</span>
+      </div>
+
+      <!-- Button to start live workout timer once logged in -->
+      <button class="workout-start-btn" id="topWorkoutStartBtn" onclick="toggleSessionState()" style="display: none;">
+        ▶ EMPEZAR ENTRENAMIENTO
+      </button>
+
+      <button class="t-btn" onclick="resetDemoState()" style="padding: 8px 14px;">🔄 Reset</button>
+    </div>
+  </header>
+
+  <!-- Main Full-Page Dashboard Container -->
+  <main class="main-wrapper" id="mainDashboardWrapper" style="opacity: 0.2; pointer-events: none;">
+
+    <!-- ===================================================================
+         WEEKLY ROUTINE SELECTOR (LUNES A VIERNES)
+         =================================================================== -->
+    <section class="weekly-selector-bar">
+      <div class="day-selector-group">
+        <span class="selector-label-tag">📅 Día de Entrenamiento:</span>
+        <label class="date-selector" for="workoutDateInput">
+          Fecha
+          <input id="workoutDateInput" type="date" onchange="selectWorkoutDate(this.value)">
+        </label>
+        
+        <button class="day-btn" id="dayBtn-lunes" onclick="selectWeeklyDay('lunes')">
+          <span>LUNES</span>
+          <span class="day-btn-sub">Pecho, Tríceps, Hombro, Abs</span>
+        </button>
+
+        <button class="day-btn" id="dayBtn-martes" onclick="selectWeeklyDay('martes')">
+          <span>MARTES</span>
+          <span class="day-btn-sub">Espalda, Bíceps, Hombro, Abs</span>
+        </button>
+
+        <button class="day-btn" id="dayBtn-miercoles" onclick="selectWeeklyDay('miercoles')">
+          <span>MIÉRCOLES</span>
+          <span class="day-btn-sub">Piernas Completo</span>
+        </button>
+
+        <button class="day-btn active" id="dayBtn-jueves" onclick="selectWeeklyDay('jueves')">
+          <span>JUEVES</span>
+          <span class="day-btn-sub">Pecho, Tríceps, Hombro, Abs</span>
+        </button>
+
+        <button class="day-btn" id="dayBtn-viernes" onclick="selectWeeklyDay('viernes')">
+          <span>VIERNES</span>
+          <span class="day-btn-sub">Espalda, Bíceps, Hombro, Abs</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================
+         FULL-WIDTH HEADER BANNER - PERSONALIZED GREETING BY USER NAME
+         =================================================================== -->
+    <section class="tactical-header-banner">
+      <div class="header-left-col">
+        <div class="banner-sub-tag">
+          <span class="tactical-pill" id="dayPillText">DÍA 4 / 5</span>
+          <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;" id="workoutSubtitleText">PECHO, TRÍCEPS, HOMBRO Y ABDOMINALES</span>
+        </div>
+
+        <!-- Dynamic Greeting Header -->
+        <h1 class="greeting-title" id="greetingHeaderTitle">
+          <span id="userGreetingPrefix">¡Buenas!</span> Hoy Jueves te toca <span class="highlight" id="greetingMuscleHighlight">Pecho</span>
+        </h1>
+      </div>
+
+      <div class="banner-visual">
+        <img src="FotoGym.jpeg" alt="Entrenamiento de fuerza">
+      </div>
+
+      <div class="header-right-metrics">
+        <div class="metric-card-mini">
+          <span class="metric-label">Tiempo de Sesión</span>
+          <span class="metric-value cyan" id="sessionTimer">00:00:00</span>
+        </div>
+
+        <div class="metric-card-mini">
+          <span class="metric-label">Volumen Acumulado</span>
+          <span class="metric-value" id="totalVolumeDisplay">0 kg</span>
+        </div>
+        
+        <div class="metric-card-mini">
+          <span class="metric-label">Ejercicios Hechos</span>
+          <span class="metric-value" id="exercisesCompletedCounter">0 / 13</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Stream & Sidebar Layout -->
+    <div class="dashboard-grid">
+
+      <!-- Left Column: Primary Exercise Card & Secondary List -->
+      <div class="stream-container">
+
+        <!-- PRIMARY EXERCISE CARD -->
+        <div class="exercise-card primary" id="primaryCardContainer">
+          
+          <div class="exercise-card-header">
+            <div class="exercise-title-group">
+              <div class="exercise-badge-icon" id="primaryCardIcon">🏋️‍♂️</div>
+              <div>
+                <h2 class="exercise-title" id="primaryExerciseTitle">Selecciona un ejercicio</h2>
+                <div class="exercise-subtitle">
+                  <span class="tag-pill" id="primaryMuscleTag">Sin seleccionar</span>
+                  <span id="primaryEquipmentTag">Elige un ejercicio para comenzar</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button class="btn-open-chest-catalog" onclick="openChestCatalogModal()" id="cardChangeExBtn">
+                🎯 ELEGIR SIGUIENTE EJERCICIO
+              </button>
+              <div class="tactical-pill" id="primaryCardTag">
+                EJERCICIO 1 DE 13
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls Panel Inside Card -->
+          <div class="card-controls-panel">
+            
+            <!-- 1. Rep/Set Selection Control [1] [2] [3] [4] -->
+            <div class="set-selector-section">
+              <span class="set-selector-label">
+                <span>⚡ Seleccionar Serie Activa:</span>
+              </span>
+
+              <label class="date-selector" for="seriesCountSelect">
+                Series
+                <select class="series-count-select" id="seriesCountSelect" onchange="updateSeriesCount(this.value)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4" selected>4</option>
+                </select>
+              </label>
+              
+              <div class="set-numbers-group">
+                <button class="set-num-btn active" onclick="selectSet(1)" id="setBtn1">1</button>
+                <button class="set-num-btn" onclick="selectSet(2)" id="setBtn2">2</button>
+                <button class="set-num-btn" onclick="selectSet(3)" id="setBtn3">3</button>
+                <button class="set-num-btn" onclick="selectSet(4)" id="setBtn4">4</button>
+              </div>
+            </div>
+
+            <!-- 2. Inputs Grid: Weight ("80 kg") + Reps ("8 reps") + Compact Stat Badge ("Máx: 95 kg | Mín: 70 kg") -->
+            <div class="inputs-and-stat-grid">
+              
+              <div class="custom-input-box">
+                <div class="input-box-label">
+                  <span>Carga (kg)</span>
+                  <span>PESO</span>
+                </div>
+                <div class="input-controls-row">
+                  <button class="adjust-btn" onclick="adjustWeight(-2.5)">-</button>
+                  <input type="text" class="numeric-input-field" id="weightInput" value="" placeholder="kg" onchange="onWeightChange(this.value)">
+                  <button class="adjust-btn" onclick="adjustWeight(+2.5)">+</button>
+                </div>
+              </div>
+
+              <div class="custom-input-box">
+                <div class="input-box-label">
+                  <span>Repeticiones</span>
+                  <span>REPES</span>
+                </div>
+                <div class="input-controls-row">
+                  <button class="adjust-btn" onclick="adjustReps(-1)">-</button>
+                  <input type="text" class="reps-input-field" id="repsInput" value="" placeholder="reps" onchange="onRepsChange(this.value)">
+                  <button class="adjust-btn" onclick="adjustReps(+1)">+</button>
+                </div>
+              </div>
+
+              <div class="compact-stat-badge" style="display: none;">
+                <div class="badge-top-label">
+                  <span>Récord Histórico</span>
+                  <span class="pr-flame-tag">🔥 PR +5%</span>
+                </div>
+                
+                <div class="badge-stat-values">
+                  <span class="stat-high">Máx: <strong id="maxStat">95 kg</strong></span>
+                  <span class="stat-divider">|</span>
+                  <span class="stat-low">Mín: <strong id="minStat">70 kg</strong></span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Set Table Breakdown -->
+            <div class="set-table-wrap">
+              <table class="set-table">
+                <thead>
+                  <tr>
+                    <th>Serie</th>
+                    <th>Carga (kg)</th>
+                    <th>Repeticiones</th>
+                    <th>Volumen Serie</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="current-row" id="rowSet1">
+                    <td>Serie #1</td>
+                    <td id="tableKg1"></td>
+                    <td id="tableReps1"></td>
+                    <td id="tableVol1"></td>
+                    <td style="color: var(--neon-cyan); font-weight: 800;" id="tableStatus1">
+                      <label class="set-skip-control"><input type="checkbox" onchange="toggleSetSkip(1, this.checked)"> No realizada</label>
+                      <textarea class="set-skip-reason" id="setReason1" placeholder="Motivo de la omisión" oninput="updateSkipReason(1, this.value)"></textarea>
+                      <span class="set-status-label">EN PROCESO</span>
+                    </td>
+                  </tr>
+                  <tr id="rowSet2">
+                    <td>Serie #2</td>
+                    <td id="tableKg2"></td>
+                    <td id="tableReps2"></td>
+                    <td id="tableVol2"></td>
+                    <td style="color: var(--text-dim);" id="tableStatus2">
+                      <label class="set-skip-control"><input type="checkbox" onchange="toggleSetSkip(2, this.checked)"> No realizada</label>
+                      <textarea class="set-skip-reason" id="setReason2" placeholder="Motivo de la omisión" oninput="updateSkipReason(2, this.value)"></textarea>
+                      <span class="set-status-label">PENDIENTE</span>
+                    </td>
+                  </tr>
+                  <tr id="rowSet3">
+                    <td>Serie #3</td>
+                    <td id="tableKg3"></td>
+                    <td id="tableReps3"></td>
+                    <td id="tableVol3"></td>
+                    <td style="color: var(--text-dim);" id="tableStatus3">
+                      <label class="set-skip-control"><input type="checkbox" onchange="toggleSetSkip(3, this.checked)"> No realizada</label>
+                      <textarea class="set-skip-reason" id="setReason3" placeholder="Motivo de la omisión" oninput="updateSkipReason(3, this.value)"></textarea>
+                      <span class="set-status-label">PENDIENTE</span>
+                    </td>
+                  </tr>
+                  <tr id="rowSet4">
+                    <td>Serie #4</td>
+                    <td id="tableKg4"></td>
+                    <td id="tableReps4"></td>
+                    <td id="tableVol4"></td>
+                    <td style="color: var(--text-dim);" id="tableStatus4">
+                      <label class="set-skip-control"><input type="checkbox" onchange="toggleSetSkip(4, this.checked)"> No realizada</label>
+                      <textarea class="set-skip-reason" id="setReason4" placeholder="Motivo de la omisión" oninput="updateSkipReason(4, this.value)"></textarea>
+                      <span class="set-status-label">PENDIENTE</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          <button class="action-btn-main" id="completeSetBtn" onclick="completeCurrentSet()">
+            <span>✓ COMPLETAR SERIE #<span id="activeSetNumDisplay">1</span></span>
+          </button>
+
+        </div>
+
+        <!-- TREADMILL TIME TRACKER -->
+        <section class="treadmill-card" aria-labelledby="treadmillTitle">
+          <div class="treadmill-card-header">
+            <div class="treadmill-title-group">
+              <div class="treadmill-icon">▰</div>
+              <div>
+                <h2 class="treadmill-title" id="treadmillTitle">Tiempo en cinta</h2>
+                <p class="treadmill-subtitle">Registra tu bloque de cardio</p>
+              </div>
+            </div>
+            <span class="tag-pill">CARDIO</span>
+          </div>
+
+          <div class="treadmill-fields">
+            <div class="treadmill-field">
+              <label for="treadmillTimeInput">Tiempo (min)</label>
+              <input id="treadmillTimeInput" type="number" min="0" step="1" value="0" onchange="updateTreadmillMetric('time', this.value)">
+            </div>
+            <div class="treadmill-field">
+              <label for="treadmillInclineInput">Inclinación (%)</label>
+              <input id="treadmillInclineInput" type="number" min="0" step="0.5" value="0" onchange="updateTreadmillMetric('incline', this.value)">
+            </div>
+            <div class="treadmill-field">
+              <label for="treadmillSpeedInput">Velocidad (km/h)</label>
+              <input id="treadmillSpeedInput" type="number" min="0" step="0.1" value="0" onchange="updateTreadmillMetric('speed', this.value)">
+            </div>
+          </div>
+        </section>
+
+        <!-- Secondary Exercises List -->
+        <div class="exercises-grid" id="secondaryExercisesContainer" style="display: none;">
+          <!-- Dynamic exercises -->
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- REST POP-UP MODAL -->
+  <div class="rest-popup-overlay" id="restPopupOverlay">
+    <div class="rest-popup-card">
+      <div class="rest-popup-tag">⏱️ TIEMPO DE DESCANSO</div>
+      <h3 class="rest-popup-title" id="restPopupTitle">DESCANSA Y RECUPERA</h3>
+
+      <div class="rest-svg-ring">
+        <svg viewBox="0 0 140 140">
+          <circle class="ring-bg" cx="70" cy="70" r="60" />
+          <circle class="ring-bar" id="popupRingBar" cx="70" cy="70" r="60" />
+        </svg>
+        <div class="rest-timer-value" id="popupTimerDisplay">01:30</div>
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;" id="restPopupSubtext">
+        Serie guardada correctamente. Respira profundo antes de la siguiente serie.
+      </p>
+
+      <div class="rest-actions-row" style="flex-direction: column; gap: 8px;">
+        <div style="display: flex; gap: 10px; width: 100%;">
+          <button class="popup-btn-add" onclick="addRestTime(30)">+30s Descanso</button>
+          <button class="popup-btn-skip" onclick="closeRestPopup()">▶ CONTINUAR SIGUIENTE SERIE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKOUT CELEBRATION MODAL -->
+  <div class="modal-overlay" id="summaryModal">
+    <div class="modal-content">
+      <div class="modal-icon">🏆</div>
+      <h2 class="modal-title">¡ENTRENAMIENTO COMPLETADO!</h2>
+      <div class="modal-subtitle" id="modalFinalSubtitle">SESIÓN FINALIZADA CON ÉXITO</div>
+
+      <div class="modal-stats-grid">
+        <div class="modal-stat-box">
+          <div class="modal-stat-lbl">Tiempo Total</div>
+          <div class="modal-stat-val highlight" id="modalFinalTime">00:42:15</div>
+        </div>
+        <div class="modal-stat-box">
+          <div class="modal-stat-lbl">Ejercicios</div>
+          <div class="modal-stat-val" id="modalFinalExercises">13 / 13</div>
+        </div>
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;" id="modalCelebrationMsg">
+        🔥 ¡Excelente trabajo superando tus límites hoy! El tiempo y volumen han sido registrados en tu historial.
+      </p>
+
+      <button class="modal-close-btn" onclick="closeSummaryModal()">
+        CERRAR Y GUARDAR EN HISTORIAL
+      </button>
+    </div>
+  </div>
+
+  <!-- USER LOGIN ENTRANCE MODAL -->
+  <div class="login-modal-overlay active" id="loginModalOverlay">
+    <div class="login-card">
+      <div class="login-avatar-icon">🔑</div>
+      <h2 class="login-title">INICIAR SESIÓN // ATLETA</h2>
+      <p class="login-subtitle">Introduce tu nombre de atleta para acceder a tu gimnasio y rutina personalizada</p>
+
+      <form onsubmit="handleLoginSubmit(event)" style="width: 100%;">
+        <div class="login-field-group">
+          <label class="login-field-label">Nombre del Atleta</label>
+          <input type="text" class="login-input-text" id="usernameInput" placeholder="Escribe tu nombre..." required autocomplete="off">
+        </div>
+
+        <button type="submit" class="login-submit-btn">
+          ⚡ INICIAR SESIÓN Y ENTRAR
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- HISTORY MODAL -->
+  <div class="panel-modal-overlay" id="historyModal">
+    <div class="panel-modal-card">
+      <div class="panel-modal-header">
+        <div class="panel-modal-title">📜 Historial</div>
+        <button class="panel-close-btn" onclick="closeHistoryModal()">✕ Cerrar</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- STATS MODAL -->
+  <div class="panel-modal-overlay" id="statsModal">
+    <div class="panel-modal-card">
+      <div class="panel-modal-header">
+        <div class="panel-modal-title">📊 Estadísticas</div>
+        <button class="panel-close-btn" onclick="closeStatsModal()">✕ Cerrar</button>
+      </div>
+      <div class="stats-grid" id="statsGrid"></div>
+    </div>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div class="panel-modal-overlay" id="profileModal">
+    <div class="panel-modal-card">
+      <div class="panel-modal-header">
+        <div class="panel-modal-title">👤 Perfil</div>
+        <button class="panel-close-btn" onclick="closeProfileModal()">✕ Cerrar</button>
+      </div>
+      <div class="profile-form">
+        <div class="profile-field">
+          <label>Nombre del atleta</label>
+          <input id="profileNameInput" type="text" placeholder="Tu nombre...">
+        </div>
+        <div class="profile-field">
+          <label>Objetivo</label>
+          <input id="profileGoalInput" type="text" placeholder="Ej: Ganar fuerza y volumen">
+        </div>
+        <div class="profile-field">
+          <label>Nivel</label>
+          <select id="profileLevelSelect">
+            <option value="Principiante">Principiante</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+          </select>
+        </div>
+        <button class="profile-save-btn" onclick="saveAthleteProfile()">Guardar perfil</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEST EXERCISES CATALOG SELECTOR MODAL -->
+  <div class="chest-modal-overlay" id="chestCatalogModal">
+    <div class="chest-catalog-card">
+      <div class="chest-catalog-header">
+        <div class="chest-catalog-title" id="chestCatalogTitle">
+          🎯 SELECCIONA TU SIGUIENTE EJERCICIO DE PECHO (<span id="chestProgressCounter">0</span>/13)
+        </div>
+        <button class="t-btn" onclick="closeChestCatalogModal()" style="max-width: 100px;">✕ Cerrar</button>
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-muted);" id="chestCatalogSubtext">
+        Elige un ejercicio de la lista para cargarlo en tu serie activa. Al completar 13 ejercicios del día, la sesión quedará cerrada por hoy.
+      </p>
+
+      <div class="chest-exercises-grid" id="chestGridContainer">
+        <!-- Dynamic chest cards -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // EXPANDED EXERCISE CATALOGS BY MUSCLE GROUP
+    const chestLibrary = [
+      { id: "c1", title: "Press de Banca Inclinado con Barra", tag: "Pecho Superior", equipment: "Barra Olímpica (20 kg)", weight: 80, reps: 8, maxStat: 95, minStat: 70 },
+      { id: "c2", title: "Press de Banca Plano con Barra", tag: "Pecho Medio", equipment: "Barra Olímpica (20 kg)", weight: 85, reps: 8, maxStat: 105, minStat: 75 },
+      { id: "c3", title: "Press de Banca Declinado con Barra", tag: "Pecho Inferior", equipment: "Barra Olímpica (20 kg)", weight: 90, reps: 8, maxStat: 110, minStat: 80 },
+      { id: "c4", title: "Press Inclinado con Mancuernas", tag: "Pecho Superior", equipment: "Mancuernas (32 kg c/u)", weight: 32, reps: 10, maxStat: 40, minStat: 26 },
+      { id: "c5", title: "Press Plano con Mancuernas", tag: "Pecho Medio", equipment: "Mancuernas (36 kg c/u)", weight: 36, reps: 10, maxStat: 44, minStat: 28 },
+      { id: "c6", title: "Aperturas en Banco Inclinado", tag: "Pecho Superior / Estiramiento", equipment: "Mancuernas (20 kg)", weight: 20, reps: 12, maxStat: 26, minStat: 16 },
+      { id: "c7", title: "Cruce de Poleas Alta (Cable Crossover)", tag: "Pecho Inferior / Medial", equipment: "Polea Alta (25 kg)", weight: 25, reps: 12, maxStat: 35, minStat: 18 },
+      { id: "c8", title: "Cruce de Poleas Baja", tag: "Pecho Superior Clavicular", equipment: "Polea Baja (20 kg)", weight: 20, reps: 12, maxStat: 28, minStat: 14 },
+      { id: "c9", title: "Peck Deck / Contractor en Máquina", tag: "Pecho Aislamiento", equipment: "Máquina Peck Deck", weight: 65, reps: 12, maxStat: 80, minStat: 50 },
+      { id: "c10", title: "Fondos para Pecho (Chest Dips)", tag: "Pecho Inferior / Tríceps", equipment: "Lastre +15 kg", weight: 15, reps: 10, maxStat: 25, minStat: 10 },
+      { id: "c11", title: "Press Hammer Strength Inclinado", tag: "Pecho Superior", equipment: "Máquina Hammer", weight: 75, reps: 8, maxStat: 95, minStat: 60 },
+      { id: "c12", title: "Flexiones Lastradas con Disco", tag: "Pecho Global / Core", equipment: "Disco de 20 kg a la espalda", weight: 20, reps: 15, maxStat: 30, minStat: 10 },
+      { id: "c13", title: "Press de Banca con Mínimo Descanso", tag: "Pecho Control / Fuerza", equipment: "Barra + banda", weight: 75, reps: 8, maxStat: 90, minStat: 60 },
+      { id: "c14", title: "Aperturas con Cable a Media Altura", tag: "Pecho Medial / Estiramiento", equipment: "Polea Media", weight: 18, reps: 14, maxStat: 26, minStat: 12 },
+      { id: "c15", title: "Press de Inclinado con Banda", tag: "Pecho Superior / Potencia", equipment: "Bandas de resistencia", weight: 12, reps: 12, maxStat: 18, minStat: 8 }
+    ];
+
+    const backLibrary = [
+      { id: "b1", title: "Dominadas Lastradas", tag: "Dorsal Ancho", equipment: "Cinturón +15 kg", weight: 15, reps: 8, maxStat: 25, minStat: 10 },
+      { id: "b2", title: "Remo con Barra Prono", tag: "Espalda Media", equipment: "Barra Olímpica", weight: 90, reps: 8, maxStat: 110, minStat: 70 },
+      { id: "b3", title: "Peso Muerto Rumano", tag: "Isquios / Dorsal", equipment: "Barra Olímpica", weight: 100, reps: 8, maxStat: 130, minStat: 80 },
+      { id: "b4", title: "Remo Sentado", tag: "Espalda / Romboides", equipment: "Máquina Remo", weight: 80, reps: 10, maxStat: 100, minStat: 55 },
+      { id: "b5", title: "Jalón al Pecho", tag: "Dorsal / Biceps", equipment: "Polea Alta", weight: 50, reps: 10, maxStat: 70, minStat: 35 },
+      { id: "b6", title: "Pull Over con Polea", tag: "Dorsal / Lat", equipment: "Polea Baja / Alta", weight: 35, reps: 12, maxStat: 50, minStat: 20 },
+      { id: "b7", title: "Remo de una Mano con Mancuerna", tag: "Espalda / Romboides", equipment: "Mancuerna (24 kg)", weight: 24, reps: 10, maxStat: 34, minStat: 16 },
+      { id: "b8", title: "Tirón de Polea Frontal", tag: "Lat / Dorsal", equipment: "Polea Baja", weight: 45, reps: 10, maxStat: 60, minStat: 30 },
+      { id: "b9", title: "Puente de Barra", tag: "Espalda / Core", equipment: "Barra + Peso corporal", weight: 0, reps: 8, maxStat: 14, minStat: 6 },
+      { id: "b10", title: "Jalón de Agarre Amplio", tag: "Dorsal Ancho / Trapecio", equipment: "Polea Alta", weight: 55, reps: 10, maxStat: 72, minStat: 35 }
+    ];
+
+    const legLibrary = [
+      { id: "l1", title: "Sentadilla Trasera con Barra", tag: "Cuádriceps / Glúteo", equipment: "Barra Olímpica (20 kg)", weight: 110, reps: 6, maxStat: 140, minStat: 90 },
+      { id: "l2", title: "Prensa de Piernas 45°", tag: "Volumen Cuádriceps", equipment: "Máquina de Prensa", weight: 220, reps: 10, maxStat: 260, minStat: 180 },
+      { id: "l3", title: "Peso Muerto Rumano", tag: "Isquiotibiales", equipment: "Barra Olímpica", weight: 100, reps: 8, maxStat: 130, minStat: 80 },
+      { id: "l4", title: "Elevación de Talones", tag: "Gemelos / Soleo", equipment: "Máquina de Gemelos", weight: 80, reps: 15, maxStat: 110, minStat: 60 },
+      { id: "l5", title: "Hip Thrust", tag: "Glúteo Mayor", equipment: "Barra / Banco", weight: 90, reps: 8, maxStat: 120, minStat: 70 },
+      { id: "l6", title: "Zancadas con Mancuernas", tag: "Piernas / Core", equipment: "Mancuernas (20 kg)", weight: 20, reps: 10, maxStat: 30, minStat: 12 },
+      { id: "l7", title: "Sentadilla Goblet", tag: "Cuádriceps / Core", equipment: "Kettlebell (24 kg)", weight: 24, reps: 10, maxStat: 36, minStat: 16 },
+      { id: "l8", title: "Peso Muerto Hexagonal", tag: "Glúteos / Isquios", equipment: "Hex Bar", weight: 100, reps: 8, maxStat: 125, minStat: 75 },
+      { id: "l9", title: "Extensión de Piernas", tag: "Cuádriceps Aislado", equipment: "Máquina de extensión", weight: 80, reps: 12, maxStat: 110, minStat: 50 },
+      { id: "l10", title: "Curl Femoral", tag: "Isquios / Glúteo", equipment: "Máquina curl femoral", weight: 70, reps: 10, maxStat: 95, minStat: 45 }
+    ];
+
+    const shoulderLibrary = [
+      { id: "h1", title: "Press Militar", tag: "Deltoides Frontal", equipment: "Barra Olímpica", weight: 50, reps: 8, maxStat: 70, minStat: 35 },
+      { id: "h2", title: "Elevaciones Laterales", tag: "Deltoides Lateral", equipment: "Mancuernas (12 kg)", weight: 12, reps: 12, maxStat: 18, minStat: 8 },
+      { id: "h3", title: "Press Arnold", tag: "Deltoides / Core", equipment: "Mancuernas (18 kg)", weight: 18, reps: 10, maxStat: 24, minStat: 12 },
+      { id: "h4", title: "Remo Vertical", tag: "Trapecio / Hombro", equipment: "Barra / Polea", weight: 30, reps: 12, maxStat: 45, minStat: 20 },
+      { id: "h5", title: "Press de Hombro en Máquina", tag: "Deltoides Frontal / Medio", equipment: "Máquina hombro", weight: 60, reps: 10, maxStat: 80, minStat: 40 },
+      { id: "h6", title: "Elevaciones Frontales", tag: "Deltoides Anterior", equipment: "Mancuernas (12 kg)", weight: 12, reps: 10, maxStat: 18, minStat: 8 },
+      { id: "h7", title: "Reverse Fly", tag: "Deltoides Posterior", equipment: "Polea / Mancuernas", weight: 15, reps: 12, maxStat: 22, minStat: 10 },
+      { id: "h8", title: "Pike Push Up", tag: "Hombros / Core", equipment: "Peso corporal", weight: 0, reps: 10, maxStat: 16, minStat: 6 },
+      { id: "h9", title: "Clean Press", tag: "Deltoides / Traps", equipment: "Barra Olímpica", weight: 45, reps: 8, maxStat: 60, minStat: 30 }
+    ];
+
+    const bicepsLibrary = [
+      { id: "bi1", title: "Curl con Barra EZ", tag: "Bíceps Braquial", equipment: "Barra EZ", weight: 40, reps: 10, maxStat: 55, minStat: 25 },
+      { id: "bi2", title: "Curl Martillo", tag: "Bíceps / Braquial", equipment: "Mancuernas (18 kg)", weight: 18, reps: 12, maxStat: 26, minStat: 12 },
+      { id: "bi3", title: "Curl Concentrado", tag: "Bíceps / Peak", equipment: "Mancuerna (16 kg)", weight: 16, reps: 12, maxStat: 22, minStat: 12 },
+      { id: "bi4", title: "Curl de Predicador", tag: "Bíceps / Aislamiento", equipment: "Máquina predicador", weight: 28, reps: 10, maxStat: 35, minStat: 18 },
+      { id: "bi5", title: "Curl con Polea Baja", tag: "Bíceps / Contracción", equipment: "Polea baja", weight: 25, reps: 12, maxStat: 35, minStat: 18 },
+      { id: "bi6", title: "Curl Inclinado con Mancuernas", tag: "Bíceps Largo", equipment: "Mancuernas (18 kg)", weight: 18, reps: 10, maxStat: 24, minStat: 12 },
+      { id: "bi7", title: "Curl en Banco Scott", tag: "Bíceps / Aislamiento", equipment: "Banco Scott", weight: 30, reps: 10, maxStat: 40, minStat: 20 },
+      { id: "bi8", title: "Curl de Agarre Invertido", tag: "Bíceps / Braquial", equipment: "Barra EZ", weight: 30, reps: 10, maxStat: 40, minStat: 20 },
+      { id: "bi9", title: "Curl con Banda", tag: "Bíceps / Contracción", equipment: "Bandas de resistencia", weight: 12, reps: 14, maxStat: 20, minStat: 8 }
+    ];
+
+    const tricepsLibrary = [
+      { id: "tr1", title: "Press Frances", tag: "Tríceps Long Head", equipment: "Barra / Mancuernas", weight: 35, reps: 10, maxStat: 45, minStat: 20 },
+      { id: "tr2", title: "Extensión de Tríceps Polea", tag: "Tríceps / Aislamiento", equipment: "Polea Baja", weight: 25, reps: 12, maxStat: 35, minStat: 18 },
+      { id: "tr3", title: "Dips en Banco", tag: "Tríceps / Pectoral", equipment: "Banco / Peso corporal", weight: 0, reps: 10, maxStat: 18, minStat: 8 },
+      { id: "tr4", title: "Press de Cierra con Mancuernas", tag: "Tríceps / Pectoral", equipment: "Mancuernas (20 kg)", weight: 20, reps: 10, maxStat: 30, minStat: 15 },
+      { id: "tr5", title: "Extensión de Tríceps en Polea Alta", tag: "Tríceps / Long Head", equipment: "Polea Alta", weight: 22, reps: 12, maxStat: 30, minStat: 15 },
+      { id: "tr6", title: "Press de Cierra con Barra", tag: "Tríceps / Fuerza", equipment: "Barra Olímpica", weight: 55, reps: 8, maxStat: 70, minStat: 35 },
+      { id: "tr7", title: "Kickback con Mancuerna", tag: "Tríceps / Aislamiento", equipment: "Mancuerna (12 kg)", weight: 12, reps: 12, maxStat: 20, minStat: 8 },
+      { id: "tr8", title: "Máquina de Tríceps", tag: "Tríceps / Contracción", equipment: "Máquina triceps", weight: 40, reps: 10, maxStat: 55, minStat: 20 },
+      { id: "tr9", title: "Mancuerna al Frontal con Cerrar", tag: "Tríceps / Empuje", equipment: "Mancuernas (18 kg)", weight: 18, reps: 10, maxStat: 24, minStat: 12 }
+    ];
+
+    const absLibrary = [
+      { id: "ab1", title: "Crunch en Banco", tag: "Abdominales Superiores", equipment: "Banco de Crunch", weight: 0, reps: 15, maxStat: 22, minStat: 10 },
+      { id: "ab2", title: "Plancha con Rodillas", tag: "Core / Abs", equipment: "Peso corporal", weight: 0, reps: 45, maxStat: 60, minStat: 30 },
+      { id: "ab3", title: "Elevación de Piernas Colgadas", tag: "Abdominales Inferiores", equipment: "Barra de dominadas", weight: 0, reps: 12, maxStat: 18, minStat: 8 },
+      { id: "ab4", title: "Giros de Mancuerna", tag: "Oblicuos / Core", equipment: "Mancuernas (10 kg)", weight: 10, reps: 12, maxStat: 18, minStat: 8 },
+      { id: "ab5", title: "Plancha Longitudinal", tag: "Core / Estabilidad", equipment: "Peso corporal", weight: 0, reps: 40, maxStat: 60, minStat: 25 },
+      { id: "ab6", title: "Crunch con Peso", tag: "Abs superiores / fuerza", equipment: "Mancuerna o Disco", weight: 10, reps: 12, maxStat: 18, minStat: 8 },
+      { id: "ab7", title: "Ab Wheel / rueda abdominal", tag: "Abs / Core", equipment: "Ab Wheel", weight: 0, reps: 10, maxStat: 15, minStat: 6 },
+      { id: "ab8", title: "Muerte en V", tag: "Abs / Oblicuos", equipment: "Peso corporal", weight: 0, reps: 12, maxStat: 18, minStat: 8 },
+      { id: "ab9", title: "V-Ups", tag: "Inferiores / Core", equipment: "Peso corporal", weight: 0, reps: 12, maxStat: 18, minStat: 8 }
+    ];
+
+    const exerciseLibraryByGroup = {
+      pecho: chestLibrary,
+      espalda: backLibrary,
+      piernas: legLibrary,
+      hombros: shoulderLibrary,
+      brazos: bicepsLibrary.concat(tricepsLibrary),
+      biceps: bicepsLibrary,
+      triceps: tricepsLibrary,
+      abs: absLibrary
+    };
+
+    // Track completed exercises per workout session
+    let completedChestExerciseIds = [];
+    const MAX_CHEST_EXERCISES = 13;
+    let currentMuscleGroup = 'pecho';
+
+    function getDayGroups(dayKey = currentDayKey) {
+      const dayData = weeklySchedule[dayKey];
+      if (!dayData) return ['pecho'];
+      const rawGroups = Array.isArray(dayData.groups) && dayData.groups.length ? dayData.groups : [dayData.group || 'pecho'];
+      return rawGroups.map(group => {
+        if (group === 'brazos') {
+          return dayData.group === 'triceps' ? 'triceps' : 'biceps';
+        }
+        if (group === 'abs' || group === 'abdominales') {
+          return 'abs';
+        }
+        return group;
+      });
+    }
+
+    function getCurrentExerciseCatalog() {
+      const groups = getDayGroups();
+      if (groups.length === 1) {
+        const single = groups[0];
+        if (single === 'triceps') return tricepsLibrary;
+        if (single === 'biceps') return bicepsLibrary;
+        if (single in exerciseLibraryByGroup) return exerciseLibraryByGroup[single];
+      }
+
+      const combined = [];
+      groups.forEach(group => {
+        const list = exerciseLibraryByGroup[group] || [];
+        list.forEach(ex => {
+          if (!combined.some(existing => existing.id === ex.id)) {
+            combined.push(ex);
+          }
+        });
+      });
+      return combined.length ? combined : (exerciseLibraryByGroup[currentMuscleGroup] || chestLibrary);
+    }
+
+    function getMuscleGroupLabel() {
+      const groups = getDayGroups();
+      if (groups.length > 1) {
+        return groups.map(group => ({
+          pecho: 'Pecho',
+          espalda: 'Espalda',
+          piernas: 'Piernas',
+          hombros: 'Hombros',
+          brazos: 'Brazos',
+          biceps: 'Bíceps',
+          triceps: 'Tríceps',
+          abs: 'Sesión'
+        }[group] || 'Sesión')).join(' / ');
+      }
+      const labels = {
+        pecho: 'Pecho',
+        espalda: 'Espalda',
+        piernas: 'Piernas',
+        hombros: 'Hombros',
+        brazos: 'Brazos',
+        biceps: 'Bíceps',
+        triceps: 'Tríceps',
+        abs: 'Sesión'
+      };
+      return labels[currentMuscleGroup] || 'Pecho';
+    }
+
+    function getMuscleGroupLabelUpper() {
+      return getMuscleGroupLabel().toUpperCase();
+    }
+
+    function getMuscleGroupProgressLabel() {
+      const labels = {
+        pecho: 'ejercicios de Pecho',
+        espalda: 'ejercicios de Espalda',
+        piernas: 'ejercicios de Piernas',
+        hombros: 'ejercicios de Hombros',
+        brazos: 'ejercicios de Brazos',
+        biceps: 'ejercicios de Bíceps',
+        triceps: 'ejercicios de Tríceps',
+        abs: 'ejercicios de Sesión'
+      };
+      return labels[currentMuscleGroup] || 'ejercicios de Pecho';
+    }
+
+    function updateMuscleGroupUiLabels() {
+      const labelTag = document.querySelector('.exercise-picker-dropdown .selector-label-tag');
+      if (labelTag) {
+        labelTag.innerText = `🎯 Ejercicio de ${getMuscleGroupLabel()} / Rutina:`;
+      }
+
+      const catalogButton = document.querySelector('.btn-open-chest-catalog');
+      if (catalogButton) {
+        const totalCatalog = getCurrentExerciseCatalog().length;
+        catalogButton.innerText = `➕ Selector de ${getMuscleGroupLabel()} (${totalCatalog})`;
+      }
+
+      const cardChangeBtn = document.getElementById('cardChangeExBtn');
+      if (cardChangeBtn) {
+        cardChangeBtn.innerText = currentPrimaryExercise ? '🔁 CAMBIAR EJERCICIO' : '🎯 ELEGIR EJERCICIO';
+      }
+    }
+
+    // Database of Weekly Routine Schedule
+    const weeklySchedule = {
+      lunes: {
+        dayName: "Lunes",
+        dayPill: "DÍA 1 / 5",
+        group: 'pecho',
+        groups: ['pecho', 'hombros', 'triceps', 'abs'],
+        subtitle: "PECHO, TRÍCEPS, HOMBRO Y ABDOMINALES",
+        greetingMuscle: "Pecho, Tríceps, Hombro y Abs",
+        exercises: [
+          chestLibrary[0],
+          shoulderLibrary[0],
+          tricepsLibrary[0],
+          absLibrary[0]
+        ],
+        heatmap: [
+          { name: "Pecho Superior & Medio", pct: 85 },
+          { name: "Tríceps (Cabeza Lateral)", pct: 75 },
+          { name: "Hombro (Deltoides Anterior)", pct: 65 },
+          { name: "Abdominales (Recto Core)", pct: 60 }
+        ]
+      },
+      martes: {
+        dayName: "Martes",
+        dayPill: "DÍA 2 / 5",
+        group: 'espalda',
+        groups: ['espalda', 'biceps', 'hombros', 'abs'],
+        subtitle: "ESPALDA, BÍCEPS, HOMBRO Y ABDOMINALES",
+        greetingMuscle: "Espalda, Bíceps, Hombro y Abs",
+        exercises: [
+          backLibrary[0],
+          bicepsLibrary[0],
+          shoulderLibrary[1],
+          absLibrary[2]
+        ],
+        heatmap: [
+          { name: "Dorsal Ancho (Latissimus)", pct: 90 },
+          { name: "Bíceps Braquial", pct: 80 },
+          { name: "Hombro Posterior & Lateral", pct: 70 },
+          { name: "Abdominales (Inferior/Oblicuos)", pct: 65 }
+        ]
+      },
+      miercoles: {
+        dayName: "Miércoles",
+        dayPill: "DÍA 3 / 5",
+        group: 'piernas',
+        groups: ['piernas'],
+        subtitle: "PIERNAS COMPLETO (CUÁDRICEPS & ISQUIOS)",
+        greetingMuscle: "Piernas",
+        exercises: [
+          { id: 1, title: "Sentadilla Trasera con Barra", tag: "Cuádriceps / Glúteo", equipment: "Barra Olímpica (20 kg)", weight: 110, reps: 6, maxStat: 140, minStat: 90 },
+          { id: 2, title: "Prensa de Piernas 45°", tag: "Volumen Cuádriceps", equipment: "Máquina de Prensa", weight: 220, reps: 10, sets: 4 },
+          { id: 3, title: "Peso Muerto Rumano", tag: "Isquiotibiales", equipment: "Barra Olímpica", weight: 100, reps: 8, sets: 3 },
+          { id: 4, title: "Elevación de Talones en Máquina (Gemelos)", tag: "Gemelos / Soleo", equipment: "Máquina de Gemelos", weight: 80, reps: 15, sets: 4 }
+        ],
+        heatmap: [
+          { name: "Cuádriceps (Vasto Lateral)", pct: 95 },
+          { name: "Isquiotibiales / Femorales", pct: 80 },
+          { name: "Glúteo Mayor", pct: 75 },
+          { name: "Gemelos & Soleos", pct: 70 }
+        ]
+      },
+      jueves: {
+        // EXACT PROMPT DEFAULT MATCH: "¡Buenas! Hoy Jueves te toca Pecho"
+        dayName: "Jueves",
+        dayPill: "DÍA 4 / 5",
+        group: 'pecho',
+        groups: ['pecho', 'hombros', 'triceps', 'abs'],
+        subtitle: "PECHO, TRÍCEPS, HOMBRO Y ABDOMINALES",
+        greetingMuscle: "Pecho, Tríceps, Hombro y Abs",
+        exercises: [
+          chestLibrary[1],
+          shoulderLibrary[2],
+          tricepsLibrary[1],
+          absLibrary[1]
+        ],
+        heatmap: [
+          { name: "Pecho Superior & Medio", pct: 90 },
+          { name: "Tríceps (Cabeza Lateral)", pct: 75 },
+          { name: "Hombro (Deltoides)", pct: 70 },
+          { name: "Abdominales (Core Global)", pct: 65 }
+        ]
+      },
+      viernes: {
+        dayName: "Viernes",
+        dayPill: "DÍA 5 / 5",
+        group: 'espalda',
+        groups: ['espalda', 'biceps', 'hombros', 'abs'],
+        subtitle: "ESPALDA, BÍCEPS, HOMBRO Y ABDOMINALES",
+        greetingMuscle: "Espalda, Bíceps, Hombro y Abs",
+        exercises: [
+          backLibrary[3],
+          bicepsLibrary[1],
+          shoulderLibrary[3],
+          absLibrary[3]
+        ],
+        heatmap: [
+          { name: "Dorsal Ancho & Romboides", pct: 90 },
+          { name: "Bíceps & Braquial", pct: 85 },
+          { name: "Hombro Lateral & Posterior", pct: 75 },
+          { name: "Abdominales Inferiores", pct: 70 }
+        ]
+      }
+    };
+
+    // User Authentication State
+    let currentUserName = localStorage.getItem('ironclad_username') || '';
+    let isLoggedIn = false;
+
+    // Workout State Variables
+    let currentDayKey = 'jueves';
+    let currentWorkoutDate = '';
+    let sessionRunning = false;
+    let sessionTimerInterval = null;
+    let elapsedSeconds = 0;
+    
+    let currentPrimaryExercise = null;
+    let currentWeight = 80;
+    let currentReps = 8;
+    let activeSetIndex = 1;
+    let setWeights = { 1: 80, 2: 80, 3: 80, 4: 80 };
+    let setReps = { 1: 8, 2: 8, 3: 8, 4: 8 };
+    let completedPrimarySets = [];
+    let seriesCount = 4;
+    let skippedSets = {};
+    let skipReasons = {};
+    let secondaryCompleted = {};
+    let treadmillMetrics = { time: 0, incline: 0, speed: 0 };
+
+    let restTimerInterval = null;
+    let restTimeSeconds = 90;
+    const maxRestSeconds = 90;
+    let audioCtx = null;
+
+    // Web Audio API Synthesizer
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playClickSound(freq = 600, duration = 0.05) {
+      try {
+        initAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    function triggerAudioChime() {
+      playClickSound(800, 0.1);
+      setTimeout(() => playClickSound(1200, 0.15), 80);
+    }
+
+    const STORAGE_KEYS = {
+      username: 'ironclad_username',
+      history: 'ironclad_workout_history',
+      profile: 'ironclad_profile',
+      workoutState: 'ironclad_workout_state'
+    };
+
+    let workoutHistory = [];
+    let athleteProfile = { goal: 'Ganar fuerza', level: 'Intermedio' };
+    let currentWorkoutSessionSaved = false;
+
+    function getWorkoutHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.history) || '[]');
+        return Array.isArray(saved) ? saved : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveWorkoutHistory(history) {
+      localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(history));
+      workoutHistory = history;
+    }
+
+    function loadProfileFromStorage() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.profile) || '{}');
+        athleteProfile = Object.assign({ goal: 'Ganar fuerza', level: 'Intermedio' }, saved);
+      } catch (e) {
+        athleteProfile = { goal: 'Ganar fuerza', level: 'Intermedio' };
+      }
+    }
+
+    function saveProfileToStorage() {
+      localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify(athleteProfile));
+    }
+
+    function openHistoryModal() {
+      playClickSound(600);
+      renderHistoryModal();
+      document.getElementById('historyModal').classList.add('active');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('historyModal').classList.remove('active');
+      playClickSound(400);
+    }
+
+    function openStatsModal() {
+      playClickSound(600);
+      renderStatsModal();
+      document.getElementById('statsModal').classList.add('active');
+    }
+
+    function closeStatsModal() {
+      document.getElementById('statsModal').classList.remove('active');
+      playClickSound(400);
+    }
+
+    function openProfileModal() {
+      playClickSound(600);
+      const nameInput = document.getElementById('profileNameInput');
+      const goalInput = document.getElementById('profileGoalInput');
+      const levelSelect = document.getElementById('profileLevelSelect');
+      if (nameInput) nameInput.value = currentUserName || '';
+      if (goalInput) goalInput.value = athleteProfile.goal || '';
+      if (levelSelect) levelSelect.value = athleteProfile.level || 'Intermedio';
+      document.getElementById('profileModal').classList.add('active');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.remove('active');
+      playClickSound(400);
+    }
+
+    function saveAthleteProfile() {
+      const nameVal = document.getElementById('profileNameInput').value.trim();
+      const goalVal = document.getElementById('profileGoalInput').value.trim();
+      const levelVal = document.getElementById('profileLevelSelect').value;
+
+      if (nameVal) {
+        currentUserName = nameVal;
+        localStorage.setItem(STORAGE_KEYS.username, currentUserName);
+        updateUserGreetingUI();
+        document.getElementById('topUserNameDisplay').innerText = currentUserName;
+      }
+
+      athleteProfile = {
+        goal: goalVal || athleteProfile.goal || 'Ganar fuerza',
+        level: levelVal || athleteProfile.level || 'Intermedio'
+      };
+      saveProfileToStorage();
+      closeProfileModal();
+    }
+
+    function renderHistoryModal() {
+      const list = document.getElementById('historyList');
+      if (!list) return;
+      workoutHistory = getWorkoutHistory();
+      if (!workoutHistory.length) {
+        list.innerHTML = '<div class="history-item"><div class="history-day">Sin sesiones</div><div class="history-meta">Todavía no has guardado ningún entrenamiento.</div></div>';
+        return;
+      }
+
+      list.innerHTML = workoutHistory.slice().reverse().map(entry => {
+        const dateLabel = new Date(entry.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const timeLabel = `${Math.floor(entry.totalSeconds / 60)} min`;
+        return `
+          <div class="history-item">
+            <div>
+              <div class="history-day">${entry.dayName || 'Entrenamiento'}</div>
+              <div class="history-meta">${dateLabel}</div>
+            </div>
+            <div>
+              <div class="history-meta">Ejercicios</div>
+              <div class="stat-value" style="font-size: 18px;">${entry.totalExercises || 0}</div>
+            </div>
+            <div>
+              <div class="history-meta">Tiempo</div>
+              <div class="stat-value" style="font-size: 18px;">${timeLabel}</div>
+            </div>
+            <div>
+              <div class="history-meta">Volumen</div>
+              <div class="stat-value" style="font-size: 18px;">${Number(entry.totalVolume || 0).toLocaleString('es-ES')} kg</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderStatsModal() {
+      const grid = document.getElementById('statsGrid');
+      if (!grid) return;
+      workoutHistory = getWorkoutHistory();
+      const totalSessions = workoutHistory.length;
+      const totalExercises = workoutHistory.reduce((sum, entry) => sum + (Number(entry.totalExercises) || 0), 0);
+      const totalVolume = workoutHistory.reduce((sum, entry) => sum + (Number(entry.totalVolume) || 0), 0);
+      const totalMinutes = workoutHistory.reduce((sum, entry) => sum + (Number(entry.totalSeconds) || 0), 0);
+      const avgTime = totalSessions ? Math.round(totalMinutes / totalSessions / 60) : 0;
+      const bestEntry = workoutHistory.reduce((best, entry) => {
+        const curr = Number(entry.totalExercises) || 0;
+        return curr > (best ? Number(best.totalExercises) : -1) ? entry : best;
+      }, null);
+
+      grid.innerHTML = `
+        <div class="stat-box">
+          <div class="stat-label">Sesiones</div>
+          <div class="stat-value">${totalSessions}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Ejercicios</div>
+          <div class="stat-value">${totalExercises}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Volumen</div>
+          <div class="stat-value">${totalVolume.toLocaleString('es-ES')} kg</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Tiempo medio</div>
+          <div class="stat-value">${avgTime} min</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Mejor día</div>
+          <div class="stat-value">${bestEntry ? (bestEntry.dayName || 'Entreno') : '—'}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Objetivo</div>
+          <div class="stat-value" style="font-size:16px;">${athleteProfile.goal || 'Ganar fuerza'}</div>
+        </div>
+      `;
+    }
+
+    function persistWorkoutToHistory() {
+      if (currentWorkoutSessionSaved) return;
+      const totalVolume = Number(document.getElementById('totalVolumeDisplay')?.innerText.replace(/[^\d.]/g, '') || 0);
+      const sessionEntry = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        dayName: weeklySchedule[currentDayKey]?.dayName || 'Entrenamiento',
+        dayKey: currentDayKey,
+        totalExercises: completedChestExerciseIds.length || 0,
+        totalSeconds: elapsedSeconds || 0,
+        totalVolume: totalVolume || 0,
+        treadmill: { ...treadmillMetrics }
+      };
+
+      workoutHistory = getWorkoutHistory();
+      workoutHistory.push(sessionEntry);
+      saveWorkoutHistory(workoutHistory);
+      currentWorkoutSessionSaved = true;
+    }
+
+    function updateTreadmillMetric(metric, value) {
+      const parsedValue = Number(value);
+      treadmillMetrics[metric] = Number.isFinite(parsedValue) && parsedValue >= 0 ? parsedValue : 0;
+      saveWorkoutState();
+    }
+
+    function saveWorkoutState() {
+      if (!currentUserName) return;
+      const state = {
+        date: currentWorkoutDate,
+        dayKey: currentDayKey,
+        selectedExerciseId: currentPrimaryExercise?.id || null,
+        currentWeight,
+        currentReps,
+        activeSetIndex,
+        setWeights,
+        setReps,
+        completedPrimarySets,
+        seriesCount,
+        skippedSets,
+        skipReasons,
+        treadmillMetrics,
+        elapsedSeconds
+      };
+      localStorage.setItem(`${STORAGE_KEYS.workoutState}_${currentUserName}`, JSON.stringify(state));
+    }
+
+    function loadWorkoutState() {
+      if (!currentUserName) return null;
+      try {
+        return JSON.parse(localStorage.getItem(`${STORAGE_KEYS.workoutState}_${currentUserName}`) || 'null');
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function getLocalDateValue(date = new Date()) {
+      const offset = date.getTimezoneOffset() * 60000;
+      return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+    }
+
+    function selectWorkoutDate(dateValue) {
+      if (!dateValue) return;
+      const date = new Date(`${dateValue}T12:00:00`);
+      const dayKeys = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const dayKey = dayKeys[date.getDay()];
+      currentWorkoutDate = dateValue;
+      const input = document.getElementById('workoutDateInput');
+      if (input) input.value = dateValue;
+      if (weeklySchedule[dayKey]) {
+        selectWeeklyDay(dayKey);
+      } else {
+        currentDayKey = dayKey;
+        clearExerciseSelection();
+        document.getElementById('workoutSubtitleText').innerText = 'DÍA DE DESCANSO';
+        document.getElementById('greetingHeaderTitle').innerText = 'Hoy es día de descanso';
+      }
+      saveWorkoutState();
+    }
+
+    function clearExerciseSelection() {
+      currentPrimaryExercise = null;
+      document.getElementById('primaryCardContainer').classList.remove('selected');
+      currentWeight = 0;
+      currentReps = 0;
+      completedPrimarySets = [];
+      skippedSets = {};
+      skipReasons = {};
+      document.getElementById('primaryExerciseTitle').innerText = 'Selecciona un ejercicio';
+      document.getElementById('primaryMuscleTag').innerText = 'Sin seleccionar';
+      document.getElementById('primaryEquipmentTag').innerText = 'Elige un ejercicio para comenzar';
+      document.getElementById('weightInput').value = '';
+      document.getElementById('repsInput').value = '';
+      const button = document.getElementById('completeSetBtn');
+      if (button) button.disabled = true;
+      resetExerciseProgress();
+    }
+
+    function updateSeriesCount(value) {
+      seriesCount = Math.min(4, Math.max(1, Number(value) || 4));
+      for (let index = 1; index <= 4; index++) {
+        const row = document.getElementById(`rowSet${index}`);
+        if (row) row.classList.toggle('is-hidden', index > seriesCount);
+      }
+      checkChestLockState();
+      saveWorkoutState();
+    }
+
+    function toggleSetSkip(setNumber, isSkipped) {
+      skippedSets[setNumber] = isSkipped;
+      const reason = document.getElementById(`setReason${setNumber}`);
+      if (reason) reason.classList.toggle('active', isSkipped);
+      const status = document.querySelector(`#tableStatus${setNumber} .set-status-label`);
+      if (status) status.innerText = isSkipped ? 'NO REALIZADA' : 'PENDIENTE';
+      if (isSkipped && !completedPrimarySets.includes(setNumber)) completedPrimarySets.push(setNumber);
+      saveWorkoutState();
+      checkChestLockState();
+    }
+
+    function updateSkipReason(setNumber, reason) {
+      skipReasons[setNumber] = reason;
+      saveWorkoutState();
+    }
+
+    // USER AUTHENTICATION & LOGIN MODAL CONTROLLER
+    function openLoginModal() {
+      playClickSound(600);
+      document.getElementById('usernameInput').value = currentUserName;
+      const modal = document.getElementById('loginModalOverlay');
+      modal.style.display = 'flex';
+      modal.classList.add('active');
+    }
+
+    function closeLoginModal() {
+      const modal = document.getElementById('loginModalOverlay');
+      modal.classList.remove('active');
+      modal.style.display = 'none';
+    }
+
+    // CHEST CATALOG MODAL CONTROLLER
+    function openChestCatalogModal() {
+      if (completedChestExerciseIds.length >= MAX_CHEST_EXERCISES) {
+        alert(`🔒 Has alcanzado el límite máximo de ${MAX_CHEST_EXERCISES} ${getMuscleGroupProgressLabel()} por hoy.`);
+        return;
+      }
+      playClickSound(650);
+      closeRestPopup();
+      renderChestCatalogGrid();
+      const modal = document.getElementById('chestCatalogModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeChestCatalogModal() {
+      const modal = document.getElementById('chestCatalogModal');
+      if (modal) modal.classList.remove('active');
+      playClickSound(400);
+    }
+
+    function requestNextExerciseSelection() {
+      closeRestPopup();
+      setTimeout(() => {
+        if (completedChestExerciseIds.length >= MAX_CHEST_EXERCISES) {
+          alert(`🔒 Has alcanzado el límite máximo de ${MAX_CHEST_EXERCISES} ${getMuscleGroupProgressLabel()} por hoy.`);
+          finishWorkoutModal();
+          return;
+        }
+        openChestCatalogModal();
+      }, 120);
+    }
+
+    function renderChestCatalogGrid() {
+      const container = document.getElementById('chestGridContainer');
+      const catalog = getCurrentExerciseCatalog();
+      if (!container) return;
+      container.innerHTML = '';
+      const counter = document.getElementById('chestProgressCounter');
+      if (counter) counter.innerText = `${completedChestExerciseIds.length} / ${MAX_CHEST_EXERCISES}`;
+
+      const catalogTitle = document.getElementById('chestCatalogTitle');
+      if (catalogTitle) {
+        catalogTitle.innerText = `🎯 SELECCIONA TU SIGUIENTE EJERCICIO ${getMuscleGroupLabelUpper()} (${completedChestExerciseIds.length}/${MAX_CHEST_EXERCISES})`;
+      }
+
+      catalog.forEach(ex => {
+        const isDone = completedChestExerciseIds.includes(ex.id);
+        const card = document.createElement('div');
+        const isSelected = currentPrimaryExercise?.id === ex.id;
+        card.className = `chest-item-card ${isDone ? 'completed' : ''} ${isSelected ? 'selected' : ''}`;
+        card.setAttribute('aria-selected', String(isSelected));
+        
+        if (!isDone) {
+          card.onclick = () => {
+            loadPrimaryExercise(ex);
+            closeChestCatalogModal();
+          };
+        }
+
+        card.innerHTML = `
+          <div class="chest-item-title">${ex.title} ${isDone ? '✓ (Completado)' : ''}</div>
+          <div class="chest-item-tag">${ex.tag}</div>
+          <div class="chest-item-meta">${ex.equipment} • ${ex.weight} kg</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // HANDLE LOGIN / ENTRANCE
+    function handleLoginSubmit(event) {
+      if (event) event.preventDefault();
+      const inputVal = document.getElementById('usernameInput').value.trim();
+      if (inputVal) {
+        currentUserName = inputVal;
+        isLoggedIn = true;
+        localStorage.setItem('ironclad_username', currentUserName);
+        triggerAudioChime();
+        
+        // Hide modal immediately and enter dashboard
+        closeLoginModal();
+        enterDashboardUI();
+      }
+    }
+
+    function enterDashboardUI() {
+      isLoggedIn = true;
+      closeLoginModal();
+
+      const mainWrapper = document.getElementById('mainDashboardWrapper');
+      mainWrapper.style.opacity = '1';
+      mainWrapper.style.pointerEvents = 'auto';
+
+      document.getElementById('topLoginBtn').style.display = 'none';
+      document.getElementById('topUserBadge').style.display = 'flex';
+      document.getElementById('topWorkoutStartBtn').style.display = 'flex';
+      document.getElementById('sessionStatusPill').style.display = 'inline-flex';
+
+      updateUserGreetingUI();
+    }
+
+    // UPDATE USER GREETING IN HEADER
+    function updateUserGreetingUI() {
+      const nameDisplay = document.getElementById('topUserNameDisplay');
+      const prefixDisplay = document.getElementById('userGreetingPrefix');
+
+      if (nameDisplay) nameDisplay.innerText = currentUserName ? currentUserName : 'Iniciar Sesión';
+      if (prefixDisplay) prefixDisplay.innerText = currentUserName ? `¡Buenas, ${currentUserName}!` : '¡Buenas!';
+    }
+
+    // SELECT WEEKLY DAY ROUTINE (LUNES - VIERNES)
+    function selectWeeklyDay(dayKey) {
+      if (!weeklySchedule[dayKey]) return;
+      playClickSound(700);
+      currentDayKey = dayKey;
+      completedChestExerciseIds = [];
+
+      // Update Day Buttons UI
+      ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'].forEach(k => {
+        const btn = document.getElementById(`dayBtn-${k}`);
+        if (btn) {
+          if (k === dayKey) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+
+      const dayData = weeklySchedule[dayKey];
+      currentMuscleGroup = (dayData.groups && dayData.groups[0]) || dayData.group || 'pecho';
+
+      // Update Header Text
+      document.getElementById('dayPillText').innerText = dayData.dayPill;
+      document.getElementById('workoutSubtitleText').innerText = dayData.subtitle;
+      
+      const greetingHeader = document.getElementById('greetingHeaderTitle');
+      const namePrefix = currentUserName ? `¡Buenas, ${currentUserName}!` : `¡Buenas!`;
+      greetingHeader.innerHTML = `${namePrefix} Hoy ${dayData.dayName} te toca <span class="highlight">${dayData.greetingMuscle}</span>`;
+
+      updateMuscleGroupUiLabels();
+
+      clearExerciseSelection();
+
+      // Populate Heatmap
+      renderHeatmap(dayData.heatmap);
+
+      updateDisplays();
+      saveWorkoutState();
+    }
+
+    // LOAD PRIMARY EXERCISE INTO ACTIVE CARD
+    function loadPrimaryExercise(ex) {
+      if (!ex) {
+        clearExerciseSelection();
+        return;
+      }
+      currentPrimaryExercise = ex;
+      document.getElementById('primaryCardContainer').classList.add('selected');
+      document.getElementById('primaryExerciseTitle').innerText = ex.title;
+      document.getElementById('primaryMuscleTag').innerText = ex.tag;
+      document.getElementById('primaryEquipmentTag').innerText = `• ${ex.equipment}`;
+
+      currentWeight = Number.isFinite(ex.weight) ? ex.weight : 0;
+      currentReps = Number.isFinite(ex.reps) ? ex.reps : 0;
+      
+      const maxStat = ex.maxStat || (currentWeight + 15);
+      const minStat = ex.minStat || Math.max(0, currentWeight - 15);
+
+      document.getElementById('maxStat').innerText = `${maxStat} kg`;
+      document.getElementById('minStat').innerText = `${minStat} kg`;
+
+      setWeights = { 1: currentWeight, 2: currentWeight, 3: currentWeight, 4: currentWeight };
+      setReps = { 1: currentReps, 2: currentReps, 3: currentReps, 4: currentReps };
+
+      resetExerciseProgress();
+      selectSet(1);
+      updateDisplays();
+      checkChestLockState();
+      updateMuscleGroupUiLabels();
+      saveWorkoutState();
+    }
+
+    function onExerciseDropdownSelect(exId) {
+      playClickSound(650);
+      const catalog = getCurrentExerciseCatalog();
+      let selected = catalog.find(e => e.id == exId);
+      if (!selected) {
+        const dayData = weeklySchedule[currentDayKey];
+        const fallback = dayData.exercises || [];
+        selected = fallback.find(e => e.id == exId);
+      }
+      if (selected) {
+        loadPrimaryExercise(selected);
+      }
+    }
+
+    function renderSecondaryExercises(exList) {
+      const container = document.getElementById('secondaryExercisesContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      secondaryCompleted = {};
+
+      exList.forEach((ex, index) => {
+        const exNum = index + 2;
+        secondaryCompleted[exNum] = false;
+
+        const isLast = (index === exList.length - 1);
+        const card = document.createElement('div');
+        card.className = 'secondary-card';
+        card.id = `exCard${exNum}`;
+
+        card.innerHTML = `
+          <div class="s-card-left">
+            <div class="s-card-icon">0${exNum}</div>
+            <div class="s-card-info">
+              <div class="s-card-name">${ex.title}</div>
+              <div class="s-card-meta">${ex.sets || 3} Series × ${ex.reps} Reps • ${ex.weight} kg ${isLast ? '(ÚLTIMO EJERCICIO)' : ''}</div>
+            </div>
+          </div>
+          <button class="s-card-action-btn" id="exBtn${exNum}" onclick="completeSecondaryExercise(${exNum}, ${ex.sets || 3}, ${ex.weight}, ${ex.reps})">
+            ${isLast ? 'Marcar (Finalizar Sesión)' : 'Marcar Completado'}
+          </button>
+        `;
+        container.appendChild(card);
+      });
+
+      const secondaryTitle = document.getElementById('secondaryExercisesSectionTitle');
+      if (secondaryTitle) {
+        secondaryTitle.innerText = `Siguientes Ejercicios de la Rutina (${exList.length})`;
+      }
+    }
+
+    function renderHeatmap(heatmapList) {
+      const container = document.getElementById('heatmapContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      heatmapList.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'heatmap-row';
+        row.innerHTML = `
+          <div class="heatmap-labels">
+            <span>${item.name}</span>
+            <span>${item.pct}%</span>
+          </div>
+          <div class="heatmap-bar-bg">
+            <div class="heatmap-bar-fill" style="width: ${item.pct}%;"></div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function resetExerciseProgress() {
+      completedPrimarySets = [];
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`setBtn${i}`);
+        if (btn) btn.className = (i === 1) ? 'set-num-btn active' : 'set-num-btn';
+
+        const statusCell = document.getElementById(`tableStatus${i}`);
+        if (statusCell) {
+          const statusLabel = statusCell.querySelector('.set-status-label');
+          if (statusLabel) statusLabel.innerText = (i === 1) ? 'EN PROCESO' : 'PENDIENTE';
+          statusCell.style.color = (i === 1) ? 'var(--neon-cyan)' : 'var(--text-dim)';
+        }
+        const checkbox = document.querySelector(`#tableStatus${i} input[type="checkbox"]`);
+        const reason = document.getElementById(`setReason${i}`);
+        if (checkbox) checkbox.checked = false;
+        if (reason) {
+          reason.value = '';
+          reason.classList.remove('active');
+        }
+      }
+      updateSeriesCount(seriesCount);
+    }
+
+    // Toggle / Start Workout Session Timer
+    function startSessionTimer() {
+      if (!sessionRunning) {
+        sessionRunning = true;
+        document.getElementById('sessionStatusText').innerText = 'ENTRENAMIENTO EN CURSO';
+        
+        const btn = document.getElementById('topWorkoutStartBtn');
+        btn.innerText = '⏸ PAUSAR ENTRENAMIENTO';
+        btn.classList.add('running');
+
+        sessionTimerInterval = setInterval(() => {
+          elapsedSeconds++;
+          const hrs = Math.floor(elapsedSeconds / 3600);
+          const mins = Math.floor((elapsedSeconds % 3600) / 60);
+          const secs = elapsedSeconds % 60;
+          document.getElementById('sessionTimer').innerText = 
+            `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      }
+    }
+
+    function pauseSessionTimer() {
+      sessionRunning = false;
+      clearInterval(sessionTimerInterval);
+      document.getElementById('sessionStatusText').innerText = 'SESIÓN PAUSADA';
+      const btn = document.getElementById('topWorkoutStartBtn');
+      btn.innerText = '▶ CONTINUAR ENTRENAMIENTO';
+      btn.classList.remove('running');
+    }
+
+    function toggleSessionState() {
+      if (sessionRunning) {
+        pauseSessionTimer();
+      } else {
+        startSessionTimer();
+      }
+      playClickSound(700);
+    }
+
+    // Select Active Set [1] [2] [3] [4]
+    function selectSet(setNum) {
+      playClickSound(500 + setNum * 100);
+      activeSetIndex = setNum;
+
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`setBtn${i}`);
+        if (btn) {
+          btn.classList.remove('active');
+          if (i === setNum) btn.classList.add('active');
+        }
+      }
+      saveWorkoutState();
+
+      const activeSetLabel = document.getElementById('activeSetNumDisplay');
+      if (activeSetLabel) {
+        activeSetLabel.innerText = String(setNum);
+      }
+
+      currentWeight = setWeights[setNum] || 80;
+      currentReps = setReps[setNum] || 8;
+      
+      document.getElementById('weightInput').value = `${currentWeight} kg`;
+      document.getElementById('repsInput').value = `${currentReps} reps`;
+
+      for (let i = 1; i <= 4; i++) {
+        const row = document.getElementById(`rowSet${i}`);
+        if (row) {
+          if (i === setNum) row.classList.add('current-row');
+          else row.classList.remove('current-row');
+        }
+      }
+    }
+
+    function adjustWeight(delta) {
+      if (!currentPrimaryExercise) return;
+      currentWeight = Math.max(0, currentWeight + delta);
+      setWeights[activeSetIndex] = currentWeight;
+      updateDisplays();
+      playClickSound(700);
+    }
+
+    function onWeightChange(val) {
+      if (!currentPrimaryExercise) return;
+      const parsed = parseFloat(val.replace(/[^\d.]/g, ''));
+      if (!isNaN(parsed) && parsed >= 0) {
+        currentWeight = parsed;
+        setWeights[activeSetIndex] = currentWeight;
+      }
+      updateDisplays();
+    }
+
+    function adjustReps(delta) {
+      if (!currentPrimaryExercise) return;
+      currentReps = Math.max(1, currentReps + delta);
+      setReps[activeSetIndex] = currentReps;
+      updateDisplays();
+      playClickSound(750);
+    }
+
+    function onRepsChange(val) {
+      if (!currentPrimaryExercise) return;
+      const parsed = parseInt(val.replace(/[^\d]/g, ''), 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        currentReps = parsed;
+        setReps[activeSetIndex] = currentReps;
+      }
+      updateDisplays();
+    }
+
+    function updateDisplays() {
+      const weightInput = document.getElementById('weightInput');
+      const repsInput = document.getElementById('repsInput');
+      if (!currentPrimaryExercise) {
+        if (weightInput) weightInput.value = '';
+        if (repsInput) repsInput.value = '';
+        for (let index = 1; index <= 4; index++) {
+          const kgCell = document.getElementById(`tableKg${index}`);
+          const repsCell = document.getElementById(`tableReps${index}`);
+          const volumeCell = document.getElementById(`tableVol${index}`);
+          if (kgCell) kgCell.innerText = '';
+          if (repsCell) repsCell.innerText = '';
+          if (volumeCell) volumeCell.innerText = '';
+        }
+      } else {
+        weightInput.value = `${currentWeight} kg`;
+        repsInput.value = `${currentReps} reps`;
+      }
+
+      const tKg = document.getElementById(`tableKg${activeSetIndex}`);
+      const tReps = document.getElementById(`tableReps${activeSetIndex}`);
+      const tVol = document.getElementById(`tableVol${activeSetIndex}`);
+      if (tKg) tKg.innerText = `${currentWeight} kg`;
+      if (tReps) tReps.innerText = `${currentReps} reps`;
+      if (tVol) tVol.innerText = `${currentWeight * currentReps} kg`;
+
+      const epleyOneRm = Math.round(currentWeight * (1 + currentReps / 30) * 10) / 10;
+      const oneRmDisplay = document.getElementById('oneRmDisplay');
+      if (oneRmDisplay) oneRmDisplay.innerText = `${epleyOneRm} kg`;
+      const oneRmHelpText = document.getElementById('oneRmHelpText');
+      if (oneRmHelpText) oneRmHelpText.innerText = `Calculado automáticamente basado en ${currentWeight} kg × ${currentReps} repeticiones.`;
+
+      // Calculate Total Volume
+      let totalVol = 0;
+      completedPrimarySets.forEach(s => totalVol += (setWeights[s] * setReps[s]));
+      
+      const dayData = weeklySchedule[currentDayKey];
+      Object.keys(secondaryCompleted).forEach(exNum => {
+        if (secondaryCompleted[exNum]) {
+          const exInfo = dayData.exercises[exNum - 1];
+          if (exInfo) {
+            totalVol += ((exInfo.sets || 3) * exInfo.reps * exInfo.weight);
+          }
+        }
+      });
+
+      document.getElementById('totalVolumeDisplay').innerText = `${totalVol.toLocaleString('es-ES')} kg`;
+
+      const totalExDone = completedChestExerciseIds.length;
+      const exercisesCompletedCounter = document.getElementById('exercisesCompletedCounter');
+      if (exercisesCompletedCounter) exercisesCompletedCounter.innerText = `${totalExDone} / ${MAX_CHEST_EXERCISES}`;
+
+      const primaryCardTag = document.getElementById('primaryCardTag');
+      if (primaryCardTag) {
+        const stepNumber = Math.min(MAX_CHEST_EXERCISES, Math.max(1, totalExDone + 1));
+        primaryCardTag.innerText = `EJERCICIO ${stepNumber} DE ${MAX_CHEST_EXERCISES}`;
+      }
+
+      const heatmapProgressText = document.getElementById('heatmapProgressText');
+      if (heatmapProgressText) heatmapProgressText.innerText = `${Math.min(100, Math.round((totalExDone / MAX_CHEST_EXERCISES) * 100))}%`;
+      saveWorkoutState();
+    }
+
+    // Complete Current Primary Set
+    function completeCurrentSet() {
+      if (!currentPrimaryExercise || skippedSets[activeSetIndex]) return;
+      if (!sessionRunning) {
+        startSessionTimer();
+      }
+
+      triggerAudioChime();
+      
+      const currentBtn = document.getElementById(`setBtn${activeSetIndex}`);
+      if (currentBtn) {
+        currentBtn.classList.add('completed');
+      }
+
+      const justCompletedSetNum = activeSetIndex;
+
+      if (!completedPrimarySets.includes(activeSetIndex)) {
+        completedPrimarySets.push(activeSetIndex);
+      }
+
+      const statusCell = document.getElementById(`tableStatus${activeSetIndex}`);
+      if (statusCell) {
+        statusCell.innerText = 'COMPLETADA';
+        statusCell.style.color = 'var(--neon-lime)';
+      }
+
+      // If all 4 sets of current exercise are done, mark this exercise completed
+      if (completedPrimarySets.length === seriesCount) {
+        if (currentPrimaryExercise && !completedChestExerciseIds.includes(currentPrimaryExercise.id)) {
+          completedChestExerciseIds.push(currentPrimaryExercise.id);
+        }
+      }
+
+      updateDisplays();
+
+      // Check if 4 chest exercises limit is reached
+      if (completedChestExerciseIds.length >= MAX_CHEST_EXERCISES) {
+        checkChestLockState();
+        setTimeout(() => {
+          finishWorkoutModal();
+        }, 500);
+      } else {
+        // Advance set index if not at set 4
+        if (activeSetIndex < seriesCount) {
+          selectSet(activeSetIndex + 1);
+          const nextStatusCell = document.getElementById(`tableStatus${activeSetIndex}`);
+          if (nextStatusCell && !completedPrimarySets.includes(activeSetIndex)) {
+            nextStatusCell.innerText = 'EN PROCESO';
+            nextStatusCell.style.color = 'var(--neon-cyan)';
+          }
+        }
+        
+        checkChestLockState();
+
+        // Launch Rest Popup with Exercise Choice Menu prompt after set!
+        const popupMsg = (justCompletedSetNum === 4) ? 
+          `¡Ejercicio Completado! (Serie 4/4)` : 
+          `¡Serie #${justCompletedSetNum} Completada!`;
+        
+        triggerRestPopup(90, popupMsg);
+      }
+    }
+
+    function handleRestPopupFinish() {
+      closeRestPopup();
+      if (completedChestExerciseIds.length >= MAX_CHEST_EXERCISES) {
+        finishWorkoutModal();
+      }
+      // If the user wants to change exercise, it is done from the main action button,
+      // not from the rest popup. This keeps the rest flow clean and predictable.
+    }
+
+    function handleRestChooseNextExercise() {
+      // Kept for compatibility, but intentionally disabled in the UI.
+      closeRestPopup();
+    }
+
+    function checkChestLockState() {
+      const isLocked = completedChestExerciseIds.length >= MAX_CHEST_EXERCISES;
+      const card = document.getElementById('primaryCardContainer');
+      const completeBtn = document.getElementById('completeSetBtn');
+      const lockBanner = document.getElementById('chestLockedBanner');
+      const cardChangeBtn = document.getElementById('cardChangeExBtn');
+
+      if (!currentPrimaryExercise) {
+        if (completeBtn) {
+          completeBtn.disabled = true;
+          completeBtn.onclick = null;
+          completeBtn.innerHTML = '<span>ELIGE UN EJERCICIO PARA COMENZAR</span>';
+        }
+        if (cardChangeBtn) cardChangeBtn.style.display = 'inline-flex';
+        return;
+      }
+
+      if (isLocked) {
+        if (card) card.classList.add('locked');
+        if (completeBtn) {
+          completeBtn.disabled = true;
+          completeBtn.onclick = null;
+          completeBtn.innerHTML = '<span>🔒 SESIÓN COMPLETADA (13/13 EJERCICIOS)</span>';
+        }
+        if (lockBanner) lockBanner.classList.add('active');
+        if (cardChangeBtn) cardChangeBtn.style.display = 'none';
+      } else if (completedPrimarySets.length === seriesCount) {
+        if (card) card.classList.remove('locked');
+        if (completeBtn) {
+          completeBtn.disabled = false;
+          completeBtn.onclick = openChestCatalogModal;
+          completeBtn.innerHTML = '<span>⏩ <span id="activeSetNumDisplay">' + activeSetIndex + '</span> ELEGIR SIGUIENTE EJERCICIO DE PECHO</span>';
+        }
+        if (lockBanner) lockBanner.classList.remove('active');
+        if (cardChangeBtn) cardChangeBtn.style.display = 'inline-flex';
+      } else {
+        if (card) card.classList.remove('locked');
+        if (completeBtn) {
+          completeBtn.disabled = false;
+          completeBtn.onclick = completeCurrentSet;
+          completeBtn.innerHTML = '<span>✓ COMPLETAR SERIE #<span id="activeSetNumDisplay">' + activeSetIndex + '</span></span>';
+        }
+        if (lockBanner) lockBanner.classList.remove('active');
+        if (cardChangeBtn) cardChangeBtn.style.display = 'inline-flex';
+      }
+    }
+
+    // Complete Secondary Exercise
+    function completeSecondaryExercise(exId, sets, kg, reps) {
+      if (!sessionRunning) {
+        startSessionTimer();
+      }
+
+      triggerAudioChime();
+      secondaryCompleted[exId] = true;
+
+      const dayData = weeklySchedule[currentDayKey];
+      const exInfo = dayData.exercises[exId - 1];
+      if (exInfo && !completedChestExerciseIds.includes(exInfo.id)) {
+        completedChestExerciseIds.push(exInfo.id);
+      }
+      
+      const card = document.getElementById(`exCard${exId}`);
+      const btn = document.getElementById(`exBtn${exId}`);
+      if (card) card.classList.add('completed');
+      if (btn) {
+        btn.classList.add('done');
+        btn.innerText = '✓ COMPLETADO';
+      }
+
+      updateDisplays();
+
+      if (completedChestExerciseIds.length >= MAX_CHEST_EXERCISES) {
+        checkChestLockState();
+        setTimeout(() => {
+          finishWorkoutModal();
+        }, 400);
+      } else {
+        triggerRestPopup(90, `¡Ejercicio #${exId} Completado!`);
+      }
+    }
+
+    // REST POP-UP CONTROLLER
+    function triggerRestPopup(seconds = 90, customTitle = "DESCANSA Y RECUPERA") {
+      clearInterval(restTimerInterval);
+      restTimeSeconds = seconds;
+
+      document.getElementById('restPopupTitle').innerText = customTitle;
+      const popupOverlay = document.getElementById('restPopupOverlay');
+      popupOverlay.classList.add('active');
+
+      const clockDisplay = document.getElementById('popupTimerDisplay');
+      const sidebarClock = document.getElementById('sidebarRestClock');
+      const ringBar = document.getElementById('popupRingBar');
+
+      const chestDone = completedChestExerciseIds.length;
+      const restText = document.getElementById('restPopupSubtext');
+      if (restText) {
+        restText.innerText = `Llevas ${chestDone} de ${MAX_CHEST_EXERCISES} ejercicios del día completados. Respira profundo antes de la siguiente serie.`;
+      }
+
+      function updateClock() {
+        const mins = Math.floor(restTimeSeconds / 60);
+        const secs = restTimeSeconds % 60;
+        const formatted = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        if (clockDisplay) clockDisplay.innerText = formatted;
+        if (sidebarClock) sidebarClock.innerText = formatted;
+
+        const offset = 377 - (restTimeSeconds / maxRestSeconds) * 377;
+        if (ringBar) ringBar.style.strokeDashoffset = offset;
+
+        if (restTimeSeconds <= 0) {
+          clearInterval(restTimerInterval);
+          triggerAudioChime();
+          handleRestPopupFinish();
+        } else {
+          restTimeSeconds--;
+        }
+      }
+
+      updateClock();
+      restTimerInterval = setInterval(updateClock, 1000);
+    }
+
+    function addRestTime(secs) {
+      restTimeSeconds += secs;
+      playClickSound(900);
+    }
+
+    function stopRestTimer() {
+      clearInterval(restTimerInterval);
+      playClickSound(400);
+    }
+
+    function closeRestPopup() {
+      clearInterval(restTimerInterval);
+      document.getElementById('restPopupOverlay').classList.remove('active');
+      playClickSound(400);
+    }
+
+    // Finish Workout Modal Celebration Screen
+    function finishWorkoutModal() {
+      closeRestPopup();
+      pauseSessionTimer();
+      triggerAudioChime();
+
+      const dayData = weeklySchedule[currentDayKey];
+      const muscleLabel = getMuscleGroupLabel();
+      const subtitleEl = document.getElementById('modalFinalSubtitle');
+      if (subtitleEl) {
+        subtitleEl.innerText = `SESIÓN DEL DÍA (${completedChestExerciseIds.length}/13 EJERCICIOS) FINALIZADA`;
+      }
+
+      const finalTimeStr = document.getElementById('sessionTimer').innerText;
+      document.getElementById('modalFinalTime').innerText = finalTimeStr;
+      
+      document.getElementById('modalFinalExercises').innerText = `${completedChestExerciseIds.length} / 13`;
+
+      const celebrEl = document.getElementById('modalCelebrationMsg');
+      if (celebrEl) {
+        celebrEl.innerText = `🏆 ¡Increíble entrenamiento! Has completado ${completedChestExerciseIds.length} ejercicios del día y dejaste la sesión cerrada con buen nivel.`;
+      }
+
+      document.getElementById('summaryModal').classList.add('active');
+    }
+
+    function closeSummaryModal() {
+      persistWorkoutToHistory();
+      document.getElementById('summaryModal').classList.remove('active');
+      playClickSound(400);
+    }
+
+    function resetDemoState() {
+      closeRestPopup();
+      pauseSessionTimer();
+      elapsedSeconds = 0;
+      treadmillMetrics = { time: 0, incline: 0, speed: 0 };
+      ['treadmillTimeInput', 'treadmillInclineInput', 'treadmillSpeedInput'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) input.value = 0;
+      });
+      completedChestExerciseIds = [];
+      currentWorkoutSessionSaved = false;
+      checkChestLockState();
+      document.getElementById('sessionTimer').innerText = '00:00:00';
+      selectWorkoutDate(currentWorkoutDate || getLocalDateValue());
+      playClickSound(300);
+    }
+
+    // INITIALIZATION LOGIC
+    loadProfileFromStorage();
+    workoutHistory = getWorkoutHistory();
+    const savedWorkoutState = loadWorkoutState();
+    currentWorkoutDate = savedWorkoutState?.date || getLocalDateValue();
+    selectWorkoutDate(currentWorkoutDate);
+
+    if (currentUserName) {
+      // Auto-login if previously saved
+      enterDashboardUI();
+      if (savedWorkoutState?.selectedExerciseId) {
+        const savedExercise = getCurrentExerciseCatalog().find(ex => ex.id === savedWorkoutState.selectedExerciseId);
+        if (savedExercise) {
+          loadPrimaryExercise(savedExercise);
+          seriesCount = savedWorkoutState.seriesCount || seriesCount;
+          setWeights = savedWorkoutState.setWeights || setWeights;
+          setReps = savedWorkoutState.setReps || setReps;
+          completedPrimarySets = savedWorkoutState.completedPrimarySets || [];
+          skippedSets = savedWorkoutState.skippedSets || {};
+          skipReasons = savedWorkoutState.skipReasons || {};
+          elapsedSeconds = savedWorkoutState.elapsedSeconds || 0;
+          updateSeriesCount(seriesCount);
+          Object.keys(skippedSets).forEach(setNumber => {
+            const checkbox = document.querySelector(`#tableStatus${setNumber} input[type="checkbox"]`);
+            if (checkbox) checkbox.checked = Boolean(skippedSets[setNumber]);
+            const reason = document.getElementById(`setReason${setNumber}`);
+            if (reason) {
+              reason.value = skipReasons[setNumber] || '';
+              reason.classList.toggle('active', Boolean(skippedSets[setNumber]));
+            }
+          });
+          selectSet(savedWorkoutState.activeSetIndex || 1);
+          updateDisplays();
+        }
+      }
+    } else {
+      // Show entrance modal
+      openLoginModal();
+    }
+  </script>
+</body>
+</html>
